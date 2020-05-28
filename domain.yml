@@ -1,0 +1,13 @@
+intents:
+  - greet
+  - general_help
+
+responses:
+  utter_greet:
+  - text: "Hallo! Ich bin der Public-Transport-Hero-Bot!"
+  utter_general_help:
+  - text: "Ich kann dir beim Planen einer Reise oder eines Ausflugs in eine Stadt helfen."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

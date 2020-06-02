@@ -1,0 +1,13 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"python_interpreter": "/home/lukas/miniconda3/envs/rasa/bin/python"
+	}
+}

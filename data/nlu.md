@@ -41,3 +41,28 @@
 - ich möchte eine verbindung suchen
 - ich möchte eine verbindung nachschlagen
 - ich möchte eine verbindung anzeigen
+
+## intent:arrival_date
+- ich komme am [18 juni](time) an
+- ich komme am [18 6](time) an
+- ich komme am [18 juni 2020](time) an
+- ich fahre am [5 mai](time)
+- [13 februar](time)
+- [13 2](time)
+- [13 februar 2020](time)
+- [13 2 2020](time)
+
+## intent:arrival_station
+- ich komme am [hauptbahnhof](arrival_station) an
+- [hauptbahnhof](arrival_station)
+- ich komme am [flughafen wien](arrival_station) an
+- [flughafen](arrival_station)
+- [flughafen wien](arrival_station)
+- ich steige am [hauptbahnhof](arrival_station) aus
+- ich steige in [meidling](arrival_station) aus
+- mein zug kommt in [hütteldorf](arrival_station) an
+- ich parke am [westbahnhof](arrival_station) an
+
+## intent:participants
+- es fahren 2 erwachsene und 2 kinder
+- ich fahre alleine

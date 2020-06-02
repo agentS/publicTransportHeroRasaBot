@@ -27,6 +27,10 @@
   - utter_main_menu
 * start_journey_planning
   - utter_start_journey_planning
+  - journey_details_form
+  - form{"name": "journey_details_form"}
+  - form{"name": null}
+  - utter_slots_values_journey_details
 
 ## greet, ask for help, and start journey planning
 * greet
@@ -36,3 +40,7 @@
   - utter_general_help
 * start_journey_planning
   - utter_start_journey_planning
+  - journey_details_form
+  - form{"name": "journey_details_form"}
+  - form{"name": null}
+  - utter_slots_values_journey_details

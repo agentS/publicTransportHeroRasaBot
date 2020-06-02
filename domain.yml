@@ -1,12 +1,29 @@
 intents:
   - greet
   - general_help
+  - start_journey_planning
+  - lookup_single_connection
 
 responses:
   utter_greet:
   - text: "Hallo! Ich bin der Public-Transport-Hero-Bot!"
+  - text: "Hallo! Wie geht's heute?"
+  utter_main_menu:
+  - text: "Was kann ich heute für dich tun?"
+    buttons:
+      - title: "Eine Reise planen"
+        payload: /start_journey_planning
+      - title: "Eine Verbindung suchen"
+        payload: /lookup_single_connection
+      - title: "Hilfe anzeigen"
+        payload: /general_help
   utter_general_help:
-  - text: "Ich kann dir beim Planen einer Reise oder eines Ausflugs in eine Stadt helfen."
+  - text: "Ich kann dir beim Planen einer Reise oder eines Ausflugs in eine Stadt helfen. Im Moment kenne ich mich nur in Wien aus, aber es ist geplant, dass andere Städte in Zukunft auch unterstützt werden. Du nennst mir einfach die Ziele, die du an welchem Tag besuchen möchtest und ich zeige dir wie du zu den Zielen kommst, das Ticket mit dem besten Preis-Leistungsverhältnis sowie Anweisungen wie du zu dem Ticket kommst."
+  utter_lookup_single_connection:
+  - text: "Gib mir bitte Bescheid, von welcher Station du zu welcher Station möchtest, damit ich die Verbindung heraussuchen kann."
+  - text: "Nenne mir bitte deine Abfahrts- und Zielstation"
+  utter_start_journey_planning:
+  - text: "Sehr cool, es geht auf große Fahrt nach Wien. Ich werde dir jetzt einige Fragen stellen, damit ich die optimale Route und das optimale Ticket finden kann."
 
 session_config:
   session_expiration_time: 60

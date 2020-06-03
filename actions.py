@@ -12,7 +12,12 @@ class JourneyDetailsForm(FormAction):
 
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
-        return ['time', 'arrival_station']
+        return ['arrival_date', 'arrival_station']
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+            'arrival_date': [self.from_entity(entity='time')]
+        }
 
     def submit(
         self,

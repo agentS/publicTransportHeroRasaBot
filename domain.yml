@@ -3,16 +3,14 @@ intents:
   - general_help
   - start_journey_planning
   - lookup_single_connection
-  - participants
-  - arrival_date
-  - arrival_station
+  - form_journey_details
 
 entities:
   - time
   - arrival_station
 
 slots:
-  time:
+  arrival_date:
     type: unfeaturized
     auto_fill: false
   arrival_station:
@@ -41,12 +39,12 @@ responses:
   - text: "Sehr cool, es geht auf große Fahrt nach Wien. Ich werde dir jetzt einige Fragen stellen, damit ich die optimale Route und das optimale Ticket finden kann."
   utter_ask_arrival_station:
   - text: "Wo kommst du in Wien an? Du kannst mir z.B. Hauptbahnhof oder Flughafen nennen."
-  utter_ask_time:
+  utter_ask_arrival_date:
   - text: "An welchem Datum kommst du in Wien an?"
   utter_submit_journey_details:
   - text: "Vielen Dank, jetzt habe ich die grundlegenden Informationen."
   utter_slots_values_journey_details:
-  - text: "Ankunftsstation: {arrival_station}, Ankunftsdatum: {time}" #  TODO: improve message
+  - text: "Ankunftsstation: {arrival_station}, Ankunftsdatum: {arrival_date}" #  TODO: improve message
 
 forms:
   - journey_details_form

@@ -42,15 +42,33 @@
 - ich möchte eine verbindung nachschlagen
 - ich möchte eine verbindung anzeigen
 
-## intent:form_journey_details
-- ich komme am [hauptbahnhof](arrival_station) an
-- [hauptbahnhof](arrival_station)
-- ich komme am [flughafen wien](arrival_station) an
-- [flughafen](arrival_station)
-- [flughafen wien](arrival_station)
-- ich steige am [hauptbahnhof](arrival_station) aus
-- ich steige in [meidling](arrival_station) aus
-- mein zug kommt in [hütteldorf](arrival_station) an
-- ich parke am [westbahnhof](arrival_station) an
-- es fahren 2 erwachsene und 2 kinder
-- ich fahre alleine
+## intent:specify_departure_and_arrival_station
+- ich fahre von [döbling]{"entity": "station", "role": "departure"} nach [alterlaa]{"entity": "station", "role": "arrival"}
+- [floridsdorf]{"entity": "station", "role": "departure"} nach [simmering]{"entity": "station", "role": "arrival"}
+- ich fahre aus [siebenhirten]{"entity": "station", "role": "departure"} nach [oberlaa]{"entity": "station", "role": "arrival"}
+- ich fahre vom [rathaus]{"entity": "station", "role": "departure"} zum [praterstern]{"entity": "station", "role": "arrival"}
+- ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} nach [meidling]{"entity": "station", "role": "arrival"}
+- vom [flughafen]{"entity": "station", "role": "departure"} nach [landstraße]{"entity": "station", "role": "arrival"}
+- aus [neubau]{"entity": "station", "role": "departure"} zum [rathaus]{"entity": "station", "role": "arrival"}
+- nach [landstraße]{"entity": "station", "role": "arrival"} vom [flughafen]{"entity": "station", "role": "departure"}
+- zum [rathaus]{"entity": "station", "role": "arrival"} aus [neubau]{"entity": "station", "role": "departure"}
+- ich fahre von der [simmeringer haide]{"entity": "station", "role": "departure"} zum [handelskai]{"entity": "station", "role": "arrival"}
+
+## intent:select_first_station
+- ich komme am [hauptbahnhof]{"entity": "station", "role": "arrival"} an
+- [hauptbahnhof]{"entity": "station", "role": "arrival"}
+- ich komme am [flughafen wien]{"entity": "station", "role": "arrival"} an
+- [flughafen]{"entity": "station", "role": "arrival"}
+- [flughafen wien]{"entity": "station", "role": "arrival"}
+- ich steige am [hauptbahnhof]{"entity": "station", "role": "arrival"} aus
+- ich steige in [meidling]{"entity": "station", "role": "arrival"} aus
+- mein zug kommt in [hütteldorf]{"entity": "station", "role": "arrival"} an
+- ich parke am [westbahnhof]{"entity": "station", "role": "arrival"}
+- ich fahre in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
+- ich möchte nach [alterlaa]{"entity": "station", "role": "arrival"} ab
+- ich fahre nach [simmering]{"entity": "station", "role": "arrival"}
+- mein ziel ist [ottakring]{"entity": "station", "role": "arrival"}
+- ich will nach [floridsdorf]{"entity": "station", "role": "arrival"}
+- ich will nach [schönbrunn]{"entity": "station", "role": "arrival"}
+- ich fahre nach [siebenhirten]{"entity": "station", "role": "arrival"}
+- ich fahre zum [rathaus]{"entity": "station", "role": "arrival"}

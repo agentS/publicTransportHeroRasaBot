@@ -15,13 +15,6 @@
 * lookup_single_connection: Ich möchte eine Verbindung nachschlagen
   - utter_lookup_single_connection
 
-## greet and lookup a single connection alpha
-* greet: Schönen Abend!
-  - utter_greet
-  - utter_main_menu
-* lookup_single_connection: Ich möchte eine Verbindung nachschlagen
-  - utter_lookup_single_connection
-
 ## greet and start journey planning
 * greet: Hallo! :)
   - utter_greet

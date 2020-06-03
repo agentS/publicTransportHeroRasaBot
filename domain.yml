@@ -3,17 +3,27 @@ intents:
   - general_help
   - start_journey_planning
   - lookup_single_connection
-  - form_journey_details
+  - specify_departure_and_arrival_station
+  - select_first_station
 
 entities:
   - time
-  - arrival_station
+  - station
 
 slots:
   arrival_date:
     type: unfeaturized
     auto_fill: false
+  first_station:
+    type: unfeaturized
+    auto_fill: false
   arrival_station:
+    type: unfeaturized
+    auto_fill: false
+  departure_station:
+    type: unfeaturized
+    auto_fill: false
+  departure_date_time:
     type: unfeaturized
     auto_fill: false
 
@@ -34,19 +44,35 @@ responses:
   - text: "Ich kann dir beim Planen einer Reise oder eines Ausflugs in eine Stadt helfen. Im Moment kenne ich mich nur in Wien aus, aber es ist geplant, dass andere Städte in Zukunft auch unterstützt werden. Du nennst mir einfach die Ziele, die du an welchem Tag besuchen möchtest und ich zeige dir wie du zu den Zielen kommst, das Ticket mit dem besten Preis-Leistungsverhältnis sowie Anweisungen wie du zu dem Ticket kommst."
   utter_lookup_single_connection:
   - text: "Gib mir bitte Bescheid, von welcher Station du zu welcher Station möchtest, damit ich die Verbindung heraussuchen kann."
-  - text: "Nenne mir bitte deine Abfahrts- und Zielstation"
+  utter_ask_departure_station:
+  - text: "Sag mir bitte von wo du wohin du fahren möchtest."
+  - text: "Nenne mir bitte deine Abfahrts- und Zielstation."
+  - text: "Von wo soll es wohin gehen?"
+  utter_ask_departure_date_time:
+  - text: "Sag mir bitte wann du fahren möchtest"
+  - text: "Um welche Uhrzeit möchtest du fahren?"
+  - text: "Jetzt bräuchte ich noch eine Uhrzeit"
+  utter_invalid_station_name:
+  - text: "Leider gibt es eine solche Station nicht in meiner Datenbank"
+  - text: "Für die Station kann ich leider keinen Treffer finden"
+  - text: "Ich kann für den Stationsnamen keine Ergebnisse finden"
+  utter_lookup_single_connection_form:
+  - text: "Super, ich such dir schnell passende Verbindungen"
+  utter_slot_values_single_connection_form:
+  - text: "Abfahrtsstation: {departure_station}, Zielstation: {arrival_station}, Abfahrtszeit: {departure_date_time}" # TODO: improve message
   utter_start_journey_planning:
   - text: "Sehr cool, es geht auf große Fahrt nach Wien. Ich werde dir jetzt einige Fragen stellen, damit ich die optimale Route und das optimale Ticket finden kann."
-  utter_ask_arrival_station:
-  - text: "Wo kommst du in Wien an? Du kannst mir z.B. Hauptbahnhof oder Flughafen nennen."
+  utter_ask_first_station:
+  - text: "Wo kommst du zum ersten Mal in Wien an?"
   utter_ask_arrival_date:
   - text: "An welchem Datum kommst du in Wien an?"
   utter_submit_journey_details:
   - text: "Vielen Dank, jetzt habe ich die grundlegenden Informationen."
   utter_slots_values_journey_details:
-  - text: "Ankunftsstation: {arrival_station}, Ankunftsdatum: {arrival_date}" #  TODO: improve message
+  - text: "Ankunftsstation: {first_station}, Ankunftsdatum: {arrival_date}" #  TODO: improve message
 
 forms:
+  - lookup_single_connection_form
   - journey_details_form
 
 session_config:

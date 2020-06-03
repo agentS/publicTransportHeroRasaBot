@@ -11,6 +11,10 @@
   - utter_main_menu
 * lookup_single_connection
   - utter_lookup_single_connection
+  - lookup_single_connection_form
+  - form{"name": "lookup_single_connection_form"}
+  - form{"name": null}
+  - utter_slot_values_single_connection_form
 
 ## greet, ask for help, and lookup a single connection
 * greet
@@ -20,6 +24,10 @@
   - utter_general_help
 * lookup_single_connection
   - utter_lookup_single_connection
+  - lookup_single_connection_form
+  - form{"name": "lookup_single_connection_form"}
+  - form{"name": null}
+  - utter_slot_values_single_connection_form
 
 ## greet and start journey planning
 * greet

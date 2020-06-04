@@ -46,7 +46,11 @@ def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -
                     candidates = []
                     for name_element in odv_name.getElementsByTagName('odvNameElem'):
                         if name_element.getAttribute('locality') in allowed_locality_names:
-                            candidates.append(name_element.getAttribute('objectName'))
+                            candidate_name = name_element.getAttribute('objectName')
+                            if candidate_name == station_name:
+                                return (StationNameValidationResult.EXACT_MATCH, candidate_name)
+                            else:
+                                candidates.append(candidate_name)
                     return (StationNameValidationResult.LIST_OF_CANDIDATES, candidates)
                 elif identification_state == 'notidentified':
                     return (StationNameValidationResult.NO_MATCH, None)

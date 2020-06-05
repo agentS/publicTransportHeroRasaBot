@@ -50,7 +50,10 @@ def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -
                         if name_element.getAttribute('locality') in allowed_locality_names:
                             candidate_name = name_element.getAttribute('objectName').lower()
                             if candidate_name == station_name:
-                                return (StationNameValidationResult.EXACT_MATCH, candidate_name)
+                                return (
+                                    StationNameValidationResult.EXACT_MATCH,
+                                    name_element.getAttribute('objectName')
+                                )
                             else:
                                 candidates.append(candidate_name)
                     return (StationNameValidationResult.LIST_OF_CANDIDATES, candidates)

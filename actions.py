@@ -63,7 +63,6 @@ class SingleConnectionForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        print(value)
         if isinstance(value, list):
             departure_station_name = self._validate_single_departure_station(
                 value[0], dispatcher, tracker, domain
@@ -71,10 +70,10 @@ class SingleConnectionForm(FormAction):
             arrival_station_name = self._validate_single_arrival_station(
                 value[1], dispatcher, tracker, domain
             )
-            if departure_station_name is not None and arrival_station is not None:
+            if departure_station_name is not None and arrival_station_name is not None:
                 return {
                     'departure_station': departure_station_name,
-                    'arrival_station': arrival_station_name
+                    'arrival_station': arrival_station_name,
                 }
             else:
                 return {'departure_station': None, 'arrival_station': None}
@@ -113,12 +112,25 @@ class SingleConnectionForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Any]:
-        print('validating arrival station')
-        print(value)
-        arrival_station_name = self._validate_single_arrival_station(
-            value, dispatcher, tracker, domain
-        )
-        return {'arrival_station': arrival_station_name}
+        if isinstance(value, list):
+            arrival_station_name = self._validate_single_arrival_station(
+                value[1], dispatcher, tracker, domain
+            )
+            departure_station_name = self._validate_single_departure_station(
+                value[0], dispatcher, tracker, domain
+            )
+            if departure_station_name is not None and arrival_station_name is not None:
+                return {
+                    'arrival_station': arrival_station_name,
+                    'departure_station': departure_station_name,
+                }
+            else:
+                return {'departure_station': None, 'arrival_station': None}
+        else:
+            arrival_station_name = self._validate_single_arrival_station(
+                value, dispatcher, tracker, domain
+            )
+            return {'arrival_station': arrival_station_name}
 
     def _validate_single_arrival_station(
         self,

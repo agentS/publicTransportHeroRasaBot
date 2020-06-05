@@ -59,6 +59,10 @@
 - vom [flughafen]{"entity": "station", "role": "departure"} nach [landstraße]{"entity": "station", "role": "arrival"}
 - von [favoriten]{"entity": "station", "role": "departure"} nach [oberdöbling]{"entity": "station", "role": "arrival"}
 - ich fahre von der [simmeringer haide]{"entity": "station", "role": "departure"} zum [handelskai]{"entity": "station", "role": "arrival"}
+- ich fahre von der [wopenkastraße]{"entity": "station", "role": "departure"} in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
+- ich fahre vom [keplerplatz]{"entity": "station", "role": "departure"} in die [seestadt]{"entity": "station", "role": "arrival"}
+- ich will von der [alten donau]{"entity": "station", "role": "departure"} zur [donauinsel]{"entity": "station", "role": "arrival"}
+- ich will von [kagran]{"entity": "station", "role": "departure"} in die [bruno-kreisky-gasse]{"entity": "station", "role": "arrival"}
 
 ## intent:select_first_station
 - ich komme am [hauptbahnhof]{"entity": "station", "role": "arrival"} an

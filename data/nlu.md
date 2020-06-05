@@ -37,21 +37,27 @@
 - ich möchte das beste ticket für einen citytrip nach wien finden
 
 ## intent:lookup_single_connection
-- ich möchte von a nach b
 - ich möchte eine verbindung suchen
 - ich möchte eine verbindung nachschlagen
 - ich möchte eine verbindung anzeigen
+- ich suche eine verbindung
+- wie komme ich wohin
+- wie komme ich nach [taubstummengasse]{"entity": "station", "role": "departure"}
 
 ## intent:specify_departure_and_arrival_station
-- ich fahre von [döbling]{"entity": "station", "role": "departure"} nach [alterlaa]{"entity": "station", "role": "arrival"}
+- ich möchte von [stranitzkygasse]{"entity": "station", "role": "departure"} nach [taubstummengasse]{"entity": "station", "role": "departure"}
+- ich möchte von [taubstummengasse]{"entity": "station", "role": "departure"} nach [stranitzkygasse]{"entity": "station", "role": "departure"}
+- ich möchte vom [stephansplatz]{"entity": "station", "role": "departure"} nach [johnstraße]{"entity": "station", "role": "departure"}
+- ich fahre von [stranitzkygasse]{"entity": "station", "role": "departure"} nach [alterlaa]{"entity": "station", "role": "arrival"}
 - [floridsdorf]{"entity": "station", "role": "departure"} nach [simmering]{"entity": "station", "role": "arrival"}
-- ich fahre aus [siebenhirten]{"entity": "station", "role": "departure"} nach [oberlaa]{"entity": "station", "role": "arrival"}
+- [rathaus]{"entity": "station", "role": "departure"} nach [schwedenplatz]{"entity": "station", "role": "arrival"}
+- [heiligenstadt]{"entity": "station", "role": "departure"} nach [schönbrunn]{"entity": "station", "role": "arrival"}
+- [stranitzkygasse]{"entity": "station", "role": "departure"} nach [taubstummengasse]{"entity": "station", "role": "arrival"}
+- ich fahre aus [siebenhirten]{"entity": "station", "role": "departure"} nach [kettenbrückengasse]{"entity": "station", "role": "arrival"}
 - ich fahre vom [rathaus]{"entity": "station", "role": "departure"} zum [praterstern]{"entity": "station", "role": "arrival"}
 - ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} nach [meidling]{"entity": "station", "role": "arrival"}
 - vom [flughafen]{"entity": "station", "role": "departure"} nach [landstraße]{"entity": "station", "role": "arrival"}
-- aus [neubau]{"entity": "station", "role": "departure"} zum [rathaus]{"entity": "station", "role": "arrival"}
-- nach [landstraße]{"entity": "station", "role": "arrival"} vom [flughafen]{"entity": "station", "role": "departure"}
-- zum [rathaus]{"entity": "station", "role": "arrival"} aus [neubau]{"entity": "station", "role": "departure"}
+- von [favoriten]{"entity": "station", "role": "departure"} nach [oberdöbling]{"entity": "station", "role": "arrival"}
 - ich fahre von der [simmeringer haide]{"entity": "station", "role": "departure"} zum [handelskai]{"entity": "station", "role": "arrival"}
 
 ## intent:select_first_station

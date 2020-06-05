@@ -15,6 +15,7 @@ class StationNameValidationResult(Enum):
 
 
 def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -> Tuple[StationNameValidationResult, Union[Text, List[Text]]]:
+    station_name = station_name.lower()
     response = requests.get(
         WIENER_LINIEN_API_BASE_URL + 'XML_TRIP_REQUEST2',
         params={
@@ -24,6 +25,7 @@ def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -
             'name_origin': station_name
         }
     )
+    print(response.url)
 
     dom = xml.dom.minidom.parseString(response.text)
     odv_elements = dom.getElementsByTagName('itdOdv')
@@ -46,7 +48,7 @@ def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -
                     candidates = []
                     for name_element in odv_name.getElementsByTagName('odvNameElem'):
                         if name_element.getAttribute('locality') in allowed_locality_names:
-                            candidate_name = name_element.getAttribute('objectName')
+                            candidate_name = name_element.getAttribute('objectName').lower()
                             if candidate_name == station_name:
                                 return (StationNameValidationResult.EXACT_MATCH, candidate_name)
                             else:

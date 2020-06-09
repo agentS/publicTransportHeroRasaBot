@@ -6,7 +6,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
 
 from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
-from api.model.api_types import Route
+from api.model.api_types import Route, MeansOfTransportType
 from datetime import datetime
 import re
 
@@ -205,10 +205,15 @@ def _convert_routes_to_markdown(routes: List[Route]) -> Text:
     for route_index, route in enumerate(routes):
         markdown_representation += f'*Verbindung {str(route_index + 1)}:*\n'
         for partial_route_index, partial_route in enumerate(route.partial_routes):
-            markdown_representation += f'{str(partial_route_index + 1)}. {partial_route.means_of_transport.product_name} __{partial_route.means_of_transport.short_name}__ '
-            markdown_representation += f'von __{partial_route.departure_station}__ (Abfahrtszeit __{_format_time(partial_route.departure_time)}__)'
-            markdown_representation += f' nach __{partial_route.arrival_station}__ (Ankunftszeit __{_format_time(partial_route.arrival_time)}__)'
-            markdown_representation += f' Richtung {partial_route.means_of_transport.destination}\n'
+            if partial_route.means_of_transport.means_of_transport_type != MeansOfTransportType.WALK:
+                markdown_representation += f'{str(partial_route_index + 1)}. {partial_route.means_of_transport.product_name} __{partial_route.means_of_transport.short_name}__ '
+                markdown_representation += f'von __{partial_route.departure_station}__ (Abfahrtszeit __{_format_time(partial_route.departure_time)}__)'
+                markdown_representation += f' nach __{partial_route.arrival_station}__ (Ankunftszeit __{_format_time(partial_route.arrival_time)}__)'
+                markdown_representation += f' Richtung {partial_route.means_of_transport.destination}\n'
+            else:
+                markdown_representation += f'{str(partial_route_index + 1)}. Fußweg nach {partial_route.arrival_station}, '
+                markdown_representation += f'Losgehzeit __{_format_time(partial_route.departure_time)}__, '
+                markdown_representation += f'Ankunftszeit __{_format_time(partial_route.arrival_time)}__'
         markdown_representation += '\n'
 
     return _normalize_markdown(markdown_representation)

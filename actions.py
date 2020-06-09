@@ -6,7 +6,9 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
 
 from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
+from api.model.api_types import Route
 from datetime import datetime
+import re
 
 
 class JourneyDetailsForm(FormAction):
@@ -183,8 +185,12 @@ class ActionLookupSingleConnection(Action):
             departure_date_time
         )
         if len(routes) > 0:
-            for route in routes:
-                dispatcher.utter_message(str(route))
+            dispatcher.utter_message(f'Ich habe die folgenden Verbindungen von {routes[0].departure_station} nach {routes[0].arrival_station} gefunden:')
+            # see https://github.com/RasaHQ/rasa/issues/4461
+            dispatcher.utter_message(json_message={
+                'text': _convert_routes_to_markdown(routes),
+                'parse_mode': 'MarkdownV2'
+            })
         else:
             dispatcher.utter_message('Leider konnte ich keine Routen zwischen den von dir genannten Stationen finden. Versuche es bitte mit einer neuen Anfrage.')
         return [
@@ -192,3 +198,33 @@ class ActionLookupSingleConnection(Action):
             SlotSet('arrival_station', None),
             SlotSet('departure_date_time', None),
         ]
+
+
+def _convert_routes_to_markdown(routes: List[Route]) -> Text:
+    markdown_representation = ''
+    for route_index, route in enumerate(routes):
+        markdown_representation += f'*Verbindung {str(route_index + 1)}:*\n'
+        for partial_route_index, partial_route in enumerate(route.partial_routes):
+            markdown_representation += f'{str(partial_route_index + 1)}. {partial_route.means_of_transport.product_name} __{partial_route.means_of_transport.short_name}__ '
+            markdown_representation += f'von __{partial_route.departure_station}__ (Abfahrtszeit __{_format_time(partial_route.departure_time)}__)'
+            markdown_representation += f' nach __{partial_route.arrival_station}__ (Ankunftszeit __{_format_time(partial_route.arrival_time)}__)'
+            markdown_representation += f' Richtung {partial_route.means_of_transport.destination}\n'
+        markdown_representation += '\n'
+
+    return _normalize_markdown(markdown_representation)
+
+
+def _normalize_markdown(markdown_representation: Text) -> Text:
+    return re.sub(
+        r'(\[|\]|\(|\)|~|`|>|#|\+|-|=|\||\{|\}|\.|!)',
+        _replace_special_character,
+        markdown_representation
+    )
+
+
+def _replace_special_character(match_object):
+    return '\\' + match_object.group(0)
+
+
+def _format_time(date_time: datetime) -> Text:
+    return date_time.strftime('%H:%M')

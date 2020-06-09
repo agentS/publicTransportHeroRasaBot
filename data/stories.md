@@ -1,3 +1,7 @@
+## start bot for first time
+* start
+  - utter_greet
+
 ## greet and ask for general help
 * greet
   - utter_greet

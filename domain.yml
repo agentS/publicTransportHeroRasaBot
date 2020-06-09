@@ -1,6 +1,7 @@
 intents:
   - greet
-  - general_help
+  - help
+  - explain
   - start_journey_planning
   - lookup_single_connection
   - specify_departure_and_arrival_station
@@ -26,6 +27,14 @@ slots:
   departure_date_time:
     type: unfeaturized
     auto_fill: false
+  requested_slot:
+    type: categorical
+    values:
+      - arrival_date
+      - first_station
+      - arrival_station
+      - departure_station
+      - departure_date_time
 
 responses:
   utter_greet:
@@ -39,8 +48,8 @@ responses:
       - title: "Eine Verbindung suchen"
         payload: /lookup_single_connection
       - title: "Hilfe anzeigen"
-        payload: /general_help
-  utter_general_help:
+        payload: /help
+  utter_help:
   - text: "Ich kann dir beim Planen einer Reise oder eines Ausflugs in eine Stadt helfen. Im Moment kenne ich mich nur in Wien aus, aber es ist geplant, dass andere Städte in Zukunft auch unterstützt werden. Du nennst mir einfach die Ziele, die du an welchem Tag besuchen möchtest und ich zeige dir wie du zu den Zielen kommst, das Ticket mit dem besten Preis-Leistungsverhältnis sowie Anweisungen wie du zu dem Ticket kommst."
   utter_lookup_single_connection:
   - text: "Gib mir bitte Bescheid, von welcher Station du zu welcher Station möchtest, damit ich die Verbindung heraussuchen kann."
@@ -58,8 +67,10 @@ responses:
   - text: "Ich kann für den Stationsnamen keine Ergebnisse finden"
   utter_lookup_single_connection_form:
   - text: "Super, ich such dir schnell passende Verbindungen"
-  utter_slot_values_single_connection_form:
-  - text: "Abfahrtsstation: {departure_station}, Zielstation: {arrival_station}, Abfahrtszeit: {departure_date_time}" # TODO: improve message
+  utter_explain_departure_station_to_arrival_station_single_connection_lookup:
+  - text: "Damit ich eine Verbindung wissen kann, muss ich wissen von wo do wohin fährst. Du kannst z.B. eingeben, dass du vom Hauptbahnhof zum Stephansplatz fährst"
+  utter_explain_departure_date_time_connection_lookup:
+  - text: "Da zu unterschiedlichen Tageszeiten und am Wochenende oder an Feiertagen oft unterschiedliche Verbindungen zur Verfügung stehen, benötige ich eine Zeit, zu welcher du fährst. Du kannst mir ein Datum und/oder eine Uhrzeit nennen sowie sagen, dass du jetzt oder morgen fährst."
   utter_start_journey_planning:
   - text: "Sehr cool, es geht auf große Fahrt nach Wien. Ich werde dir jetzt einige Fragen stellen, damit ich die optimale Route und das optimale Ticket finden kann."
   utter_ask_first_station:

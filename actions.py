@@ -1,10 +1,12 @@
 from typing import Dict, Text, Any, List, Union, Optional
 
-from rasa_sdk import Tracker
+from rasa_sdk import Tracker, Action
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
 
-from api.WienerLinienAPI import validate_station_name, StationNameValidationResult
+from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
+from datetime import datetime
 
 
 class JourneyDetailsForm(FormAction):
@@ -159,3 +161,34 @@ class SingleConnectionForm(FormAction):
     ):
         dispatcher.utter_template('utter_lookup_single_connection_form', tracker)
         return []
+
+
+class ActionLookupSingleConnection(Action):
+    def name(self) -> Text:
+        return 'action_lookup_single_connection'
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        departure_date_time = datetime.strptime(
+            tracker.get_slot('departure_date_time'),
+            '%Y-%m-%dT%H:%M:%S.%f%z'
+        )
+        routes = lookup_routes(
+            tracker.get_slot('departure_station'),
+            tracker.get_slot('arrival_station'),
+            departure_date_time
+        )
+        if len(routes) > 0:
+            for route in routes:
+                dispatcher.utter_message(str(route))
+        else:
+            dispatcher.utter_message('Leider konnte ich keine Routen zwischen den von dir genannten Stationen finden. Versuche es bitte mit einer neuen Anfrage.')
+        return [
+            SlotSet('departure_station', None),
+            SlotSet('arrival_station', None),
+            SlotSet('departure_date_time', None),
+        ]

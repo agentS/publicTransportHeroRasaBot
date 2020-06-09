@@ -75,6 +75,9 @@ forms:
   - lookup_single_connection_form
   - journey_details_form
 
+actions:
+  - action_lookup_single_connection
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

@@ -66,7 +66,11 @@ def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -
     return (StationNameValidationResult.NO_MATCH, None)
 
 
-def lookup_routes(departure_station_name: Text, arrival_station_name: Text) -> List:
+def lookup_routes(
+    departure_station_name: Text,
+    arrival_station_name: Text,
+    departure_date_time: datetime
+) -> List[Route]:
     response = requests.get(
         WIENER_LINIEN_API_BASE_URL + TRIP_REQUEST_ENDPOINT,
         params={
@@ -74,7 +78,9 @@ def lookup_routes(departure_station_name: Text, arrival_station_name: Text) -> L
             'type_origin': 'any',
             'name_origin': departure_station_name,
             'type_destination': 'any',
-            'name_destination': arrival_station_name
+            'name_destination': arrival_station_name,
+            'itdDate': departure_date_time.strftime('%Y%m%d'),
+            'itdTime': departure_date_time.strftime('%H%M')
         }
     )
 

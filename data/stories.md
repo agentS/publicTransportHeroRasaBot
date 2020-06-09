@@ -14,7 +14,7 @@
   - lookup_single_connection_form
   - form{"name": "lookup_single_connection_form"}
   - form{"name": null}
-  - utter_slot_values_single_connection_form
+  - action_lookup_single_connection
 
 ## greet, ask for help, and lookup a single connection
 * greet
@@ -27,7 +27,7 @@
   - lookup_single_connection_form
   - form{"name": "lookup_single_connection_form"}
   - form{"name": null}
-  - utter_slot_values_single_connection_form
+  - action_lookup_single_connection
 
 ## greet and start journey planning
 * greet

@@ -3,11 +3,11 @@
 - schönen tag
 - guten morgen
 - guten abend
-- /hi
 - willkommen
-- /start
 - angenehmen tag
 - hey
+- aloha
+- alola
 
 ## intent:help
 - was kann ich machen

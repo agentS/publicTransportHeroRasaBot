@@ -6,6 +6,7 @@ intents:
   - lookup_single_connection
   - specify_departure_and_arrival_station
   - select_first_station
+  - out_of_scope
 
 entities:
   - time
@@ -81,6 +82,11 @@ responses:
   - text: "Vielen Dank, jetzt habe ich die grundlegenden Informationen."
   utter_slots_values_journey_details:
   - text: "Ankunftsstation: {first_station}, Ankunftsdatum: {arrival_date}" #  TODO: improve message
+  utter_out_of_scope:
+  - text: "Ich fürchte, dass ich die Eingabe nicht verstehen kann."
+  - text: "Leider kann ich die Eingabe nicht verarbeiten."
+  - text: "Das kann ich leider nicht."
+  - text: "Unglücklicherweise bin ich dazu nicht in der Lage."
 
 forms:
   - lookup_single_connection_form

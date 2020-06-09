@@ -84,3 +84,7 @@
   - lookup_single_connection_form
   - form{"name": null}
   - action_lookup_single_connection
+
+## out of scope intent
+* out_of_scope
+  - utter_out_of_scope

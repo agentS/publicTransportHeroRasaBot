@@ -29,6 +29,7 @@ def validate_station_name(station_name: Text, allowed_locality_names=['Wien']) -
             'name_origin': station_name
         }
     )
+    response.encoding = 'UTF-8'
     print(response.url)
 
     dom = xml.dom.minidom.parseString(response.text)
@@ -83,10 +84,10 @@ def lookup_routes(
             'itdTime': departure_date_time.strftime('%H%M')
         }
     )
-
+    response.encoding = 'UTF-8'
     print(response.url)
-    dom = xml.dom.minidom.parseString(response.text)
 
+    dom = xml.dom.minidom.parseString(response.text)
     routes = []
     dom_route_list = dom.getElementsByTagName('itdRouteList')
     if len(dom_route_list) > 0:

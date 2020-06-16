@@ -26,7 +26,7 @@
 - warum muss ich das bekannt geben
 - warum wird das benötigt
 - warum musst du das wissen
-- was bring das
+- was bringt das
 - was soll ich machen
 - was soll ich tun
 - ich kenne mich nicht aus

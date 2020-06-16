@@ -78,9 +78,13 @@ responses:
   utter_ask_first_station:
   - text: "Wo kommst du zum ersten Mal in Wien an?"
   utter_ask_arrival_date:
-  - text: "An welchem Datum kommst du in Wien an?"
+  - text: "An welchem Datum und zu welcher Uhrzeit kommst du in Wien an?"
   utter_submit_journey_details:
   - text: "Vielen Dank, jetzt habe ich die grundlegenden Informationen."
+  utter_explain_arrival_date:
+  - text: "Damit ich die passenden Verbindungen heraussuchen kann und damit ich weiß, wie lange du in Wien bist, benötige ich bitte Datum und Uhrzeit, wann du das erste Mal in Wien ankommst."
+  utter_explain_first_station:
+  - text: "Ich benötige die Station, an der du das erste Mal in Wien ankommst, da z.B. für den Flughafen Wien andere Tarife gelten als für Stationen innerhalb Wiens. Außerdem kann ich dir dann einige Tipps zum Ticketkauf geben. ;)"
   utter_slots_values_journey_details:
   - text: "Ankunftsstation: {first_station}, Ankunftsdatum: {arrival_date}" #  TODO: improve message
   utter_out_of_scope:

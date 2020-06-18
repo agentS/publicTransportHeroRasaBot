@@ -75,7 +75,14 @@
   - journey_details_form
   - form{"name": "journey_details_form"}
   - form{"name": null}
-  - utter_slots_values_journey_details
+  - utter_destinations_loop_journey_planning
+  - action_initialize_journey_planning
+  - utter_destinations_loop_journey_planning
+  - utter_add_route_or_wait_for_next_day
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - form{"name": null}
 
 ## greet, ask for help, and start journey planning
 * greet
@@ -88,7 +95,13 @@
   - journey_details_form
   - form{"name": "journey_details_form"}
   - form{"name": null}
-  - utter_slots_values_journey_details
+  - action_initialize_journey_planning
+  - utter_destinations_loop_journey_planning
+  - utter_add_route_or_wait_for_next_day
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - form{"name": null}
 
 ## explain arrival date journey planning
 * start_journey_planning
@@ -99,7 +112,13 @@
   - utter_explain_arrival_date
   - journey_details_form
   - form{"name": null}
-  - utter_slots_values_journey_details
+  - action_initialize_journey_planning
+  - utter_destinations_loop_journey_planning
+  - utter_add_route_or_wait_for_next_day
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - form{"name": null}
 
 ## explain first station journey planning
 * start_journey_planning
@@ -110,7 +129,13 @@
   - utter_explain_first_station
   - journey_details_form
   - form{"name": null}
-  - utter_slots_values_journey_details
+  - action_initialize_journey_planning
+  - utter_destinations_loop_journey_planning
+  - utter_add_route_or_wait_for_next_day
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - form{"name": null}
 
 ## out of scope intent
 * out_of_scope

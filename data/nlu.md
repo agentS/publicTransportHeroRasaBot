@@ -74,7 +74,7 @@
 - ich will von [alte donau U]{"entity": "station", "role": "departure"} zur [donauinsel]{"entity": "station", "role": "arrival"}
 - ich will von [kagran U]{"entity": "station", "role": "departure"} in die [bruno-kreisky-gasse]{"entity": "station", "role": "arrival"}
 
-## intent:select_first_station
+## intent:select_arrival_station
 - ich komme am [hauptbahnhof]{"entity": "station", "role": "arrival"} an
 - [hauptbahnhof]{"entity": "station", "role": "arrival"}
 - ich komme am [flughafen wien]{"entity": "station", "role": "arrival"} an
@@ -92,3 +92,27 @@
 - ich will nach [schönbrunn]{"entity": "station", "role": "arrival"}
 - ich fahre nach [siebenhirten U]{"entity": "station", "role": "arrival"}
 - ich fahre zum [rathaus]{"entity": "station", "role": "arrival"}
+
+## intent:add_destination_journey_planning
+- ich möchte einen stopp hinzufügen
+- ich möchte noch wo hin fahren
+- ich möchte einen halt hinzufügen
+- noch einen stopp
+- stopp hinzufügen
+- halt hinzufügen
+- stopp einfügen
+- halt einfügen
+- ich möchte noch wo hin
+- ich möchte noch einen stopp einfügen
+- ich möchte einen halt einfügen
+- ich möchte noch einen stopp einlegen
+- ich möchte einen halt einlegen
+
+## intent:wait_for_next_day
+- ich möchte einen abend pause machen
+- genug für heute
+- eine pause wäre angebracht
+- eine pause wäre gut
+- ich mache morgen weiter
+- ich mache am nächsten tag weiter
+- ich mache am folgenden tag weiter

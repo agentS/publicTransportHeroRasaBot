@@ -11,52 +11,6 @@ from datetime import datetime
 import re
 
 
-class JourneyDetailsForm(FormAction):
-
-    def name(self):
-        return 'journey_details_form'
-
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return ['arrival_date', 'first_station']
-
-    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-        return {
-            'arrival_date': [self.from_entity(entity='time')],
-            'first_station': [self.from_entity(entity='station', intent=['select_first_station'])],
-        }
-
-    def validate_first_station(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ):
-        dispatcher.utter_message('Ich überprüfe schnell die von dir angegebene Station.')
-        (validation_result, first_station_name) = validate_station_name(
-            value,
-            ['Wien', 'Schwechat']
-        )
-        if validation_result == StationNameValidationResult.EXACT_MATCH:
-            return {'first_station': first_station_name}
-        elif validation_result == StationNameValidationResult.LIST_OF_CANDIDATES:
-            dispatcher.utter_message('Für die von dir gewählte Station habe ich direkten Treffer, aber mehrere mögliche gefunden. Du musst die Abfrage leider noch einmal eingeben, da ich mir nicht sicher sein kann, welche Station gemeint ist. Die möglichen Treffer lauten: ' + (', '.join(first_station_name)))
-            return {'first_station': None}
-        elif validation_result == StationNameValidationResult.NO_MATCH:
-            dispatcher.utter_message('Leider konnte ich für die von dir gewählte Abfahrtsstation keinen Treffer finden.')
-            return {'first_station': None}
-
-    def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any]
-    ):
-        dispatcher.utter_template('utter_submit_journey_details', tracker)
-        return []
-
-
 class SingleConnectionForm(FormAction):
 
     def name(self):
@@ -182,7 +136,7 @@ class SingleConnectionForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any]
     ):
-        dispatcher.utter_template('utter_lookup_single_connection_form', tracker)
+        dispatcher.utter_message(template='utter_lookup_single_connection_form')
         return []
 
 
@@ -254,3 +208,111 @@ def _replace_special_character(match_object):
 
 def _format_time(date_time: datetime) -> Text:
     return date_time.strftime('%H:%M')
+
+class JourneyDetailsForm(FormAction):
+
+    def name(self):
+        return 'journey_details_form'
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        return [
+            'arrival_date',
+            'first_station',
+        ]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+            'arrival_date': [self.from_entity(entity='time')],
+            'first_station': [self.from_entity(
+                entity='station',
+                intent=['select_arrival_station']
+            )],
+        }
+
+    def validate_first_station(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ):
+        dispatcher.utter_message('Ich überprüfe schnell die von dir angegebene Station.')
+        (validation_result, first_station_name) = validate_station_name(
+            value,
+            ['Wien', 'Schwechat']
+        )
+        if validation_result == StationNameValidationResult.EXACT_MATCH:
+            return {'first_station': first_station_name}
+        elif validation_result == StationNameValidationResult.LIST_OF_CANDIDATES:
+            dispatcher.utter_message('Für die von dir gewählte Station habe ich direkten Treffer, aber mehrere mögliche gefunden. Du musst die Abfrage leider noch einmal eingeben, da ich mir nicht sicher sein kann, welche Station gemeint ist. Die möglichen Treffer lauten: ' + (', '.join(first_station_name)))
+            return {'first_station': None}
+        elif validation_result == StationNameValidationResult.NO_MATCH:
+            dispatcher.utter_message('Leider konnte ich für die von dir gewählte Abfahrtsstation keinen Treffer finden.')
+            return {'first_station': None}
+
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ):
+        return []
+
+
+class ActionInitializeJourneyPlanning(Action):
+    def name(self) -> Text:
+        return 'action_initialize_journey_planning'
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        return [
+            SlotSet('previous_arrvial_station', tracker.get_slot('first_station')),
+            SlotSet('journey_routes', [])
+        ]
+
+class JourneyAddRouteForm(FormAction):
+
+    def name(self):
+        return 'journey_add_route_form'
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        return [
+            'journey_route_arrival_station',
+            'journey_route_departure_date_time'
+        ]
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+            'journey_route_arrival_station': [self.from_entity(
+                entity='station',
+                role='arrival',
+                intent=[
+                    'select_arrival_station',
+                ]
+            )],
+            'journey_route_departure_date_time': [self.from_entity(entity='time')],
+        }
+
+    def validate_journey_route_arrival_station(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ):
+        return {'journey_route_arrival_station': value}
+
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ):
+        dispatcher.utter_message(template='utter_print_added_journey_route_details')
+        return []

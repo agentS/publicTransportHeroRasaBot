@@ -3,10 +3,12 @@ intents:
   - greet
   - help
   - explain
-  - start_journey_planning
   - lookup_single_connection
   - specify_departure_and_arrival_station
-  - select_first_station
+  - start_journey_planning
+  - select_arrival_station
+  - add_destination_journey_planning
+  - wait_for_next_day
   - out_of_scope
 
 entities:
@@ -14,12 +16,6 @@ entities:
   - station
 
 slots:
-  arrival_date:
-    type: unfeaturized
-    auto_fill: false
-  first_station:
-    type: unfeaturized
-    auto_fill: false
   arrival_station:
     type: unfeaturized
     auto_fill: false
@@ -27,6 +23,25 @@ slots:
     type: unfeaturized
     auto_fill: false
   departure_date_time:
+    type: unfeaturized
+    auto_fill: false
+  arrival_date:
+    type: unfeaturized
+    auto_fill: false
+  first_station:
+    type: unfeaturized
+    auto_fill: false
+  previous_arrvial_station:
+    type: unfeaturized
+  journey_routes:
+    type: unfeaturized
+  journey_route_arrival_station:
+    type: unfeaturized
+    auto_fill: false
+  journey_route_departure_station:
+    type: unfeaturized
+    auto_fill: false
+  journey_route_departure_date_time:
     type: unfeaturized
     auto_fill: false
   requested_slot:
@@ -37,6 +52,9 @@ slots:
       - arrival_station
       - departure_station
       - departure_date_time
+      - journey_route_arrival_station
+      - journey_route_departure_station
+      - journey_route_departure_date_time
 
 responses:
   utter_greet:
@@ -78,15 +96,32 @@ responses:
   utter_ask_first_station:
   - text: "Wo kommst du zum ersten Mal in Wien an?"
   utter_ask_arrival_date:
-  - text: "An welchem Datum und zu welcher Uhrzeit kommst du in Wien an?"
-  utter_submit_journey_details:
-  - text: "Vielen Dank, jetzt habe ich die grundlegenden Informationen."
+  - text: "An welchem Datum kommst du in Wien an?"
   utter_explain_arrival_date:
   - text: "Damit ich die passenden Verbindungen heraussuchen kann und damit ich weiß, wie lange du in Wien bist, benötige ich bitte Datum und Uhrzeit, wann du das erste Mal in Wien ankommst."
   utter_explain_first_station:
   - text: "Ich benötige die Station, an der du das erste Mal in Wien ankommst, da z.B. für den Flughafen Wien andere Tarife gelten als für Stationen innerhalb Wiens. Außerdem kann ich dir dann einige Tipps zum Ticketkauf geben. ;)"
-  utter_slots_values_journey_details:
-  - text: "Ankunftsstation: {first_station}, Ankunftsdatum: {arrival_date}" #  TODO: improve message
+  utter_destinations_loop_journey_planning:
+  - text: "Wunderbar, ich habe jetzt deine Ankunftsdaten. Als Nächstes werde ich dich fragen, welche Ziele du auf deiner Reise besuchen möchtest. Damit kann ich die optimale Route für dich berechnen. Die Fragen sind so aufgebaut, dass ich dich zuerst frage, wo du hin möchtest, danach, wann du (in etwa) losfährst und anschließend, ob du noch weitere Ziele an dem Tag besuchen möchtest, am nächsten Tag weiter mit deiner Reise machen möchtest oder ob du mir bereits alle Ziele genannt hast."
+  utter_add_route_or_wait_for_next_day:
+  - text: "Zuerst möchte ich dich gleich fragen, ob du noch am selben Tag zu deinem ersten Ziel fahren möchtest oder ob du eine Nacht Pause machen möchtest und am nächsten Tag frisch gestärkt losfahren möchtest."
+    buttons:
+      - title: "Einen Stopp hinzufügen"
+        payload: /add_destination_journey_planning
+      - title: "Am nächsten Tag loslegen"
+        payload: /wait_for_next_day
+  utter_print_added_journey_route_details:
+  - text: "Departure: {journey_route_departure_station}, arrival: {journey_route_arrival_station}, departure date: {journey_route_departure_date_time}"
+  utter_ask_journey_route_arrival_station:
+  - text: "Sag mir bitte wo du von {previous_arrvial_station} aus hinfahren möchtest."
+  - text: "Wo möchtest du von {previous_arrvial_station} hinfahren möchtest."
+  - text: "Wohin soll es von {previous_arrvial_station} aus gehen."
+  utter_ask_journey_route_departure_station:
+  - text: "Du kannst mir entweder sagen wohin du fahren möchtest und ich verwende deine zuletzt eingegebene Station als Abfahrtsstation oder du kannst mir sagen von wo du wohin fahren möchtest."
+  utter_ask_journey_route_departure_date_time:
+  - text: "Sag mir bitte wann du fahren möchtest"
+  - text: "Um welche Uhrzeit möchtest du fahren?"
+  - text: "Jetzt bräuchte ich noch eine Uhrzeit"
   utter_out_of_scope:
   - text: "Ich fürchte, dass ich die Eingabe nicht verstehen kann."
   - text: "Leider kann ich die Eingabe nicht verarbeiten."
@@ -96,9 +131,11 @@ responses:
 forms:
   - lookup_single_connection_form
   - journey_details_form
+  - journey_add_route_form
 
 actions:
   - action_lookup_single_connection
+  - action_initialize_journey_planning
 
 session_config:
   session_expiration_time: 60

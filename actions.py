@@ -11,6 +11,9 @@ from datetime import datetime
 import re
 
 
+DATE_TIME_FORMAT_STRING = '%Y-%m-%dT%H:%M:%S.%f%z'
+
+
 class SingleConnectionForm(FormAction):
 
     def name(self):
@@ -152,7 +155,7 @@ class ActionLookupSingleConnection(Action):
     ) -> List[Dict[Text, Any]]:
         departure_date_time = datetime.strptime(
             tracker.get_slot('departure_date_time'),
-            '%Y-%m-%dT%H:%M:%S.%f%z'
+            DATE_TIME_FORMAT_STRING
         )
         routes = lookup_routes(
             tracker.get_slot('departure_station'),
@@ -272,11 +275,12 @@ class ActionInitializeJourneyPlanning(Action):
     ) -> List[Dict[Text, Any]]:
         return [
             SlotSet('previous_arrvial_station', tracker.get_slot('first_station')),
+            SlotSet('journey_current_date', tracker.get_slot('arrival_date')),
             SlotSet('journey_routes', [])
         ]
 
-class JourneyAddRouteForm(FormAction):
 
+class JourneyAddRouteForm(FormAction):
     def name(self):
         return 'journey_add_route_form'
 
@@ -316,3 +320,49 @@ class JourneyAddRouteForm(FormAction):
     ):
         dispatcher.utter_message(template='utter_print_added_journey_route_details')
         return []
+
+
+class ActionAddJourneyRoute(Action):
+    def name(self):
+        return 'action_add_journey_route'
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        departure_date_time = datetime.strptime(
+            tracker.get_slot('journey_route_departure_date_time'),
+            DATE_TIME_FORMAT_STRING
+        )
+        journey_current_date = datetime.strptime(
+            tracker.get_slot('journey_current_date'),
+            DATE_TIME_FORMAT_STRING
+        )
+        departure_date_time = departure_date_time.replace(
+            year=journey_current_date.year,
+            month=journey_current_date.month,
+            day=journey_current_date.day,
+        )
+        routes = lookup_routes(
+            tracker.get_slot('previous_arrvial_station'),
+            tracker.get_slot('journey_route_arrival_station'),
+            departure_date_time
+        )
+        if len(routes) > 0:
+            dispatcher.utter_message(f'Super, ich habe mindestens eine Verbindung von {routes[0].departure_station} nach {routes[0].arrival_station} gefunden und sie in die Reiseplanung miteinbezogen')
+            journey_routes = tracker.get_slot('journey_routes')
+            journey_routes.append(routes)
+            return [
+                SlotSet('previous_arrvial_station', tracker.get_slot('journey_route_arrival_station')),
+                SlotSet('journey_routes', journey_routes)
+                SlotSet('journey_route_arrival_station', None),
+                SlotSet('journey_route_departure_date_time', None),
+            ]
+        else:
+            dispatcher.utter_message('Leider konnte ich keine Routen zwischen den von dir genannten Stationen finden. Versuche es bitte mit einer neuen Anfrage.')
+            return [
+                SlotSet('journey_route_arrival_station', None),
+                SlotSet('journey_route_departure_date_time', None),
+            ]

@@ -75,7 +75,6 @@
   - journey_details_form
   - form{"name": "journey_details_form"}
   - form{"name": null}
-  - utter_destinations_loop_journey_planning
   - action_initialize_journey_planning
   - utter_destinations_loop_journey_planning
   - utter_add_route_or_wait_for_next_day
@@ -83,6 +82,7 @@
   - journey_add_route_form
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
+  - action_add_journey_route
 
 ## greet, ask for help, and start journey planning
 * greet
@@ -102,6 +102,7 @@
   - journey_add_route_form
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
+  - action_add_journey_route
 
 ## explain arrival date journey planning
 * start_journey_planning
@@ -119,6 +120,7 @@
   - journey_add_route_form
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
+  - action_add_journey_route
 
 ## explain first station journey planning
 * start_journey_planning
@@ -136,6 +138,7 @@
   - journey_add_route_form
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
+  - action_add_journey_route
 
 ## out of scope intent
 * out_of_scope

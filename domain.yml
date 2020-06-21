@@ -35,6 +35,8 @@ slots:
     type: unfeaturized
   journey_routes:
     type: unfeaturized
+  journey_current_date:
+    type: unfeaturized
   journey_route_arrival_station:
     type: unfeaturized
     auto_fill: false
@@ -136,6 +138,7 @@ forms:
 actions:
   - action_lookup_single_connection
   - action_initialize_journey_planning
+  - action_add_journey_route
 
 session_config:
   session_expiration_time: 60

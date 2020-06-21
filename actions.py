@@ -7,6 +7,7 @@ from rasa_sdk.forms import FormAction
 
 from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
 from api.model.api_types import JourneyStop, Route, MeansOfTransportType, create_journey_stop_from_json
+from ticket_calculator.ticket import find_best_tickets_for_journey
 from datetime import datetime, timedelta
 import re
 
@@ -310,7 +311,16 @@ class JourneyAddRouteForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ):
-        return {'journey_route_arrival_station': value}
+        dispatcher.utter_message('Ich überprüfe schnell die von dir angegebene Ankunftsstation.')
+        (validation_result, journey_route_arrival_station_name) = validate_station_name(value)
+        if validation_result == StationNameValidationResult.EXACT_MATCH:
+            return {'journey_route_arrival_station': journey_route_arrival_station_name}
+        elif validation_result == StationNameValidationResult.LIST_OF_CANDIDATES:
+            dispatcher.utter_message('Für die von dir gewählte Station habe ich direkten Treffer, aber mehrere mögliche gefunden. Du musst die Abfrage leider noch einmal eingeben, da ich mir nicht sicher sein kann, welche Station gemeint ist. Die möglichen Treffer lauten: ' + (', '.join(journey_route_arrival_station_name)))
+            return {'journey_route_arrival_station': None}
+        elif validation_result == StationNameValidationResult.NO_MATCH:
+            dispatcher.utter_message('Leider konnte ich für die von dir gewählte Abfahrtsstation keinen Treffer finden.')
+            return {'journey_route_arrival_station': None}
 
     def submit(
         self,
@@ -413,6 +423,16 @@ class ActionFinishJourneyPlanning(Action):
                 'text': route_display_text,
                 'parse_mode': 'MarkdownV2'
             })
+
+        print(tracker.get_slot('journey_routes'))
+        optimal_tickets = find_best_tickets_for_journey(journey_stops)
+        if len(optimal_tickets) == 1:
+            dispatcher.utter_message(f'Ich würde dir das folgende Ticket für deine Reise empfehlen: {optimal_tickets[0].name} zum Preis von €{optimal_tickets[0].price}')
+        else:
+            ticket_message = 'Ich würde dir die folgenden Tickets für deine Reise empfehlen:\n'
+            for ticket in optimal_tickets:
+                ticket_message += f'- {ticket.name} zum Preis von €{ticket.price}\n'
+            dispatcher.utter_message(ticket_message)
 
         return [
             SlotSet('first_station', None),

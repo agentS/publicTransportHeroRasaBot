@@ -73,6 +73,9 @@
 - ich fahre vom [keplerplatz]{"entity": "station", "role": "departure"} in die [seestadt U]{"entity": "station", "role": "arrival"}
 - ich will von [alte donau U]{"entity": "station", "role": "departure"} zur [donauinsel]{"entity": "station", "role": "arrival"}
 - ich will von [kagran U]{"entity": "station", "role": "departure"} in die [bruno-kreisky-gasse]{"entity": "station", "role": "arrival"}
+- bring mich vom [rathaus]{"entity": "station", "role": "departure"} in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
+- bring mich von der [stranitzkygasse]{"entity": "station", "role": "departure"} in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
+- ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
 
 ## intent:select_arrival_station
 - ich komme am [hauptbahnhof]{"entity": "station", "role": "arrival"} an
@@ -92,6 +95,15 @@
 - ich will nach [schönbrunn]{"entity": "station", "role": "arrival"}
 - ich fahre nach [siebenhirten U]{"entity": "station", "role": "arrival"}
 - ich fahre zum [rathaus]{"entity": "station", "role": "arrival"}
+- ich fahre zum [stephansplatz]{"entity": "station", "role": "arrival"}
+- ich fahre zum [schloss schönbrunn]{"entity": "station", "role": "arrival"}
+- ich will zum [stephansplatz]{"entity": "station", "role": "arrival"}
+- ich will zum [schloss schönbrunn]{"entity": "station", "role": "arrival"}
+- bring mich zum [stephansplatz]{"entity": "station", "role": "arrival"}
+- bring mich zum [schloss schönbrunn]{"entity": "station", "role": "arrival"}
+- bring mich in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
+- bring mich in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
+- ich fahre in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
 
 ## intent:add_destination_journey_planning
 - ich möchte einen stopp hinzufügen

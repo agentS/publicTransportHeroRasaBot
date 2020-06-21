@@ -32,7 +32,7 @@ slots:
   first_station:
     type: unfeaturized
     auto_fill: false
-  previous_arrvial_station:
+  previous_arrival_station:
     type: unfeaturized
   journey_routes:
     type: unfeaturized
@@ -122,12 +122,10 @@ responses:
         payload: /wait_for_next_day
       - title: "Reiseplanung beenden"
         payload: /finish_journey_planning
-  utter_print_added_journey_route_details:
-  - text: "Departure: {journey_route_departure_station}, arrival: {journey_route_arrival_station}, departure date: {journey_route_departure_date_time}"
   utter_ask_journey_route_arrival_station:
-  - text: "Sag mir bitte wo du von {previous_arrvial_station} aus hinfahren möchtest."
-  - text: "Wo möchtest du von {previous_arrvial_station} hinfahren möchtest."
-  - text: "Wohin soll es von {previous_arrvial_station} aus gehen."
+  - text: "Sag mir bitte wo du von {previous_arrival_station} aus hinfahren möchtest."
+  - text: "Wo möchtest du von {previous_arrival_station} hinfahren möchtest."
+  - text: "Wohin soll es von {previous_arrival_station} aus gehen."
   utter_ask_journey_route_departure_station:
   - text: "Du kannst mir entweder sagen wohin du fahren möchtest und ich verwende deine zuletzt eingegebene Station als Abfahrtsstation oder du kannst mir sagen von wo du wohin fahren möchtest."
   utter_explain_journey_route_arrival_station:
@@ -138,6 +136,11 @@ responses:
   - text: "Jetzt bräuchte ich noch eine Uhrzeit"
   utter_explain_journey_route_departure_date_time:
   - text: "Da zu unterschiedlichen Tageszeiten oft unterschiedliche Verbindungen zur Verfügung stehen, benötige ich die Uhrzeit, zu welcher du fährst. Du kannst mir eine Uhrzeit nennen oder sagen, dass du am Abend fährst."
+  utter_wait_for_next_day:
+  - text: "Ein Tag Pause tut immer gut!"
+  - text: "Eine Pause ist eine hervorragende Idee!"
+  - text: "Diese Nacht voll Schlaft hast du dir redlich verdient!"
+  - text: "Frisch gestärkt geht es morgen ans Werk!"
   utter_out_of_scope:
   - text: "Ich fürchte, dass ich die Eingabe nicht verstehen kann."
   - text: "Leider kann ich die Eingabe nicht verarbeiten."
@@ -153,6 +156,7 @@ actions:
   - action_lookup_single_connection
   - action_initialize_journey_planning
   - action_add_journey_route
+  - action_wait_for_next_day
   - action_finish_journey_planning
 
 session_config:

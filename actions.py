@@ -7,7 +7,7 @@ from rasa_sdk.forms import FormAction
 
 from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
 from api.model.api_types import JourneyStop, Route, MeansOfTransportType, create_journey_stop_from_json
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 
 
@@ -274,7 +274,7 @@ class ActionInitializeJourneyPlanning(Action):
         domain: Dict[Text, Any]
     ) -> List[Dict[Text, Any]]:
         return [
-            SlotSet('previous_arrvial_station', tracker.get_slot('first_station')),
+            SlotSet('previous_arrival_station', tracker.get_slot('first_station')),
             SlotSet('journey_current_date', tracker.get_slot('arrival_date')),
             SlotSet('journey_routes', [])
         ]
@@ -318,7 +318,7 @@ class JourneyAddRouteForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any]
     ):
-        dispatcher.utter_message(template='utter_print_added_journey_route_details')
+        dispatcher.utter_message(f'Ich suche dir schnell eine Verbindung zwischen {tracker.get_slot("previous_arrival_station")} und {tracker.get_slot("journey_route_arrival_station")}')
         return []
 
 
@@ -345,7 +345,7 @@ class ActionAddJourneyRoute(Action):
             month=journey_current_date.month,
             day=journey_current_date.day,
         )
-        departure_station = tracker.get_slot('previous_arrvial_station')
+        departure_station = tracker.get_slot('previous_arrival_station')
         arrival_station = tracker.get_slot('journey_route_arrival_station')
         routes = lookup_routes(departure_station, arrival_station, departure_date_time)
         if len(routes) > 0:
@@ -354,7 +354,7 @@ class ActionAddJourneyRoute(Action):
             journey_stop = JourneyStop(departure_station, arrival_station, departure_date_time, routes)
             journey_routes.append(journey_stop.to_serializable())
             return [
-                SlotSet('previous_arrvial_station', tracker.get_slot('journey_route_arrival_station')),
+                SlotSet('previous_arrival_station', tracker.get_slot('journey_route_arrival_station')),
                 SlotSet('journey_routes', journey_routes),
                 SlotSet('journey_route_arrival_station', None),
                 SlotSet('journey_route_departure_date_time', None),
@@ -365,6 +365,32 @@ class ActionAddJourneyRoute(Action):
                 SlotSet('journey_route_arrival_station', None),
                 SlotSet('journey_route_departure_date_time', None),
             ]
+
+
+class ActionWaitForNextDay(Action):
+    def name(self):
+        return 'action_wait_for_next_day'
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        journey_current_date = datetime.strptime(
+            tracker.get_slot('journey_current_date'),
+            DATE_TIME_FORMAT_STRING
+        )
+        journey_current_date = journey_current_date + timedelta(days = 1)
+
+        dispatcher.utter_message(f'Der aktuelle Tag auf den sich die Zeitangaben beziehen ist der {_format_date(journey_current_date)}')
+        return [
+            SlotSet('journey_current_date', _format_date_time(journey_current_date))
+        ]
+
+
+def _format_date_time(date_time: datetime) -> str:
+    return date_time.strftime(DATE_TIME_FORMAT_STRING)
 
 
 class ActionFinishJourneyPlanning(Action):
@@ -388,7 +414,13 @@ class ActionFinishJourneyPlanning(Action):
                 'parse_mode': 'MarkdownV2'
             })
 
-        return []
+        return [
+            SlotSet('first_station', None),
+            SlotSet('arrival_date', None),
+            SlotSet('previous_arrival_station', None),
+            SlotSet('journey_current_date', None),
+            SlotSet('journey_routes', None),
+        ]
 
 
 def _format_date(date_time: datetime) -> Text:

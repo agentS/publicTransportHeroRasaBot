@@ -83,6 +83,7 @@
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
   - action_add_journey_route
+  - utter_add_route_or_wait_for_next_day
 
 ## greet, ask for help, and start journey planning
 * greet
@@ -103,6 +104,7 @@
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
   - action_add_journey_route
+  - utter_add_route_or_wait_for_next_day
 
 ## explain arrival date journey planning
 * start_journey_planning
@@ -116,11 +118,6 @@
   - action_initialize_journey_planning
   - utter_destinations_loop_journey_planning
   - utter_add_route_or_wait_for_next_day
-* add_destination_journey_planning
-  - journey_add_route_form
-  - form{"name": "journey_add_route_form"}
-  - form{"name": null}
-  - action_add_journey_route
 
 ## explain first station journey planning
 * start_journey_planning
@@ -134,11 +131,30 @@
   - action_initialize_journey_planning
   - utter_destinations_loop_journey_planning
   - utter_add_route_or_wait_for_next_day
+
+## explain journey route arrival station
 * add_destination_journey_planning
   - journey_add_route_form
   - form{"name": "journey_add_route_form"}
+  - slot{"requested_slot": "journey_route_arrival_station"}
+* explain
+  - utter_explain_journey_route_arrival_station
+  - journey_add_route_form
   - form{"name": null}
   - action_add_journey_route
+  - utter_add_route_or_wait_for_next_day
+
+## explain journey route departure date time
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - slot{"requested_slot": "journey_route_departure_date_time"}
+* explain
+  - utter_explain_journey_route_departure_date_time
+  - journey_add_route_form
+  - form{"name": null}
+  - action_add_journey_route
+  - utter_add_route_or_wait_for_next_day
 
 ## out of scope intent
 * out_of_scope

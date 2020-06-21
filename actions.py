@@ -353,10 +353,10 @@ class ActionAddJourneyRoute(Action):
         if len(routes) > 0:
             dispatcher.utter_message(f'Super, ich habe mindestens eine Verbindung von {routes[0].departure_station} nach {routes[0].arrival_station} gefunden und sie in die Reiseplanung miteinbezogen')
             journey_routes = tracker.get_slot('journey_routes')
-            journey_routes.append(routes)
+            journey_routes.append([route.to_serializable() for route in routes])
             return [
                 SlotSet('previous_arrvial_station', tracker.get_slot('journey_route_arrival_station')),
-                SlotSet('journey_routes', journey_routes)
+                SlotSet('journey_routes', journey_routes),
                 SlotSet('journey_route_arrival_station', None),
                 SlotSet('journey_route_departure_date_time', None),
             ]

@@ -3,6 +3,9 @@ from datetime import datetime
 from enum import Enum, auto, unique
 
 
+DATE_TIME_STRING_FORMAT = '%Y-%m-%dT%H:%M:%S'
+
+
 @unique
 class MeansOfTransportType(Enum):
     TRAIN = 0
@@ -32,6 +35,11 @@ class MeansOfTransport:
     def __str__(self):
         return self.product_name + ' ' + self.short_name + ' towards ' + self.destination
 
+    def to_serializable(self):
+        serializable = vars(self)
+        serializable['means_of_transport_type'] = self.means_of_transport_type.value
+        return serializable
+
 
 class PartialRoute:
     def __init__(
@@ -52,6 +60,14 @@ class PartialRoute:
         else:
             return 'Walk to ' + self.arrival_station + ' from ' + str(self.departure_time) + ' until ' + str(self.arrival_time)
 
+    def to_serializable(self):
+        means_of_transport = self.means_of_transport.to_serializable()
+        serializable = vars(self)
+        serializable['means_of_transport'] = means_of_transport
+        serializable['departure_time'] = self.departure_time.strftime(DATE_TIME_STRING_FORMAT)
+        serializable['arrival_time'] = self.arrival_time.strftime(DATE_TIME_STRING_FORMAT)
+        return serializable
+
 
 class Route:
     def __init__(self, departure_station: Text, arrival_station: Text):
@@ -64,3 +80,10 @@ class Route:
         for partial_route in self.partial_routes:
             partial_routes_string = partial_routes_string + str(partial_route) + '\n'
         return f'In order to get from {self.departure_station} to {self.arrival_station} take the following routes:\n{partial_routes_string}'
+
+
+    def to_serializable(self):
+        serializable = vars(self)
+        partial_routes = [partial_route.to_serializable() for partial_route in self.partial_routes]
+        serializable['partial_routes'] = partial_routes
+        return serializable

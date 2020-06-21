@@ -90,7 +90,7 @@ responses:
   utter_lookup_single_connection_form:
   - text: "Super, ich such dir schnell passende Verbindungen"
   utter_explain_departure_station_to_arrival_station_single_connection_lookup:
-  - text: "Damit ich eine Verbindung wissen kann, muss ich wissen von wo do wohin fährst. Du kannst z.B. eingeben, dass du vom Hauptbahnhof zum Stephansplatz fährst"
+  - text: "Damit ich eine Verbindung suchen kann, muss ich wissen von wo do wohin fährst. Du kannst z.B. eingeben, dass du vom Hauptbahnhof zum Stephansplatz fährst."
   utter_explain_departure_date_time_connection_lookup:
   - text: "Da zu unterschiedlichen Tageszeiten und am Wochenende oder an Feiertagen oft unterschiedliche Verbindungen zur Verfügung stehen, benötige ich eine Zeit, zu welcher du fährst. Du kannst mir ein Datum und/oder eine Uhrzeit nennen sowie sagen, dass du jetzt oder morgen fährst."
   utter_start_journey_planning:
@@ -120,10 +120,14 @@ responses:
   - text: "Wohin soll es von {previous_arrvial_station} aus gehen."
   utter_ask_journey_route_departure_station:
   - text: "Du kannst mir entweder sagen wohin du fahren möchtest und ich verwende deine zuletzt eingegebene Station als Abfahrtsstation oder du kannst mir sagen von wo du wohin fahren möchtest."
+  utter_explain_journey_route_arrival_station:
+  - text: "Damit ich eine Verbindung suchen kann, muss ich wissen wohin du fährst. Du kannst z.B. eingeben, dass du zum Stephansplatz oder zur Votivkirche fährst."
   utter_ask_journey_route_departure_date_time:
   - text: "Sag mir bitte wann du fahren möchtest"
   - text: "Um welche Uhrzeit möchtest du fahren?"
   - text: "Jetzt bräuchte ich noch eine Uhrzeit"
+  utter_explain_journey_route_departure_date_time:
+  - text: "Da zu unterschiedlichen Tageszeiten oft unterschiedliche Verbindungen zur Verfügung stehen, benötige ich die Uhrzeit, zu welcher du fährst. Du kannst mir eine Uhrzeit nennen oder sagen, dass du am Abend fährst."
   utter_out_of_scope:
   - text: "Ich fürchte, dass ich die Eingabe nicht verstehen kann."
   - text: "Leider kann ich die Eingabe nicht verarbeiten."

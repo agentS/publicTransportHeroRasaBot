@@ -6,7 +6,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
 
 from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
-from api.model.api_types import Route, MeansOfTransportType
+from api.model.api_types import JourneyStop, Route, MeansOfTransportType, create_journey_stop_from_json
 from datetime import datetime
 import re
 
@@ -345,15 +345,14 @@ class ActionAddJourneyRoute(Action):
             month=journey_current_date.month,
             day=journey_current_date.day,
         )
-        routes = lookup_routes(
-            tracker.get_slot('previous_arrvial_station'),
-            tracker.get_slot('journey_route_arrival_station'),
-            departure_date_time
-        )
+        departure_station = tracker.get_slot('previous_arrvial_station')
+        arrival_station = tracker.get_slot('journey_route_arrival_station')
+        routes = lookup_routes(departure_station, arrival_station, departure_date_time)
         if len(routes) > 0:
             dispatcher.utter_message(f'Super, ich habe mindestens eine Verbindung von {routes[0].departure_station} nach {routes[0].arrival_station} gefunden und sie in die Reiseplanung miteinbezogen')
             journey_routes = tracker.get_slot('journey_routes')
-            journey_routes.append([route.to_serializable() for route in routes])
+            journey_stop = JourneyStop(departure_station, arrival_station, departure_date_time, routes)
+            journey_routes.append(journey_stop.to_serializable())
             return [
                 SlotSet('previous_arrvial_station', tracker.get_slot('journey_route_arrival_station')),
                 SlotSet('journey_routes', journey_routes),
@@ -366,3 +365,31 @@ class ActionAddJourneyRoute(Action):
                 SlotSet('journey_route_arrival_station', None),
                 SlotSet('journey_route_departure_date_time', None),
             ]
+
+
+class ActionFinishJourneyPlanning(Action):
+    def name(self):
+        return 'action_finish_journey_planning'
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[Dict[Text, Any]]:
+        journey_stops = tracker.get_slot('journey_routes')
+        journey_stops = [create_journey_stop_from_json(stop) for stop in journey_stops]
+
+        dispatcher.utter_message('Vielen Dank, dass du mir vertraust. :) Ich habe die folgende Routenplanung für dich zusammengestellt:')
+        for stop in journey_stops:
+            route_display_text = f'Für die Verbindung von {stop.departure_station} nach {stop.arrival_station} am {_format_date(stop.desired_date_time)} um {_format_time(stop.desired_date_time)} habe ich die folgenden Verbindungen gefunden:\n{_convert_routes_to_markdown(stop.routes)}'
+            dispatcher.utter_message(json_message={
+                'text': route_display_text,
+                'parse_mode': 'MarkdownV2'
+            })
+
+        return []
+
+
+def _format_date(date_time: datetime) -> Text:
+    return date_time.strftime('%d.%m')

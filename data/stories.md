@@ -83,7 +83,15 @@
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
   - action_add_journey_route
-  - utter_add_route_or_wait_for_next_day
+  - utter_add_route_or_wait_for_next_day_or_finish_journey_planning
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - form{"name": null}
+  - action_add_journey_route
+  - utter_add_route_or_wait_for_next_day_or_finish_journey_planning
+* finish_journey_planning
+  - action_finish_journey_planning
 
 ## greet, ask for help, and start journey planning
 * greet
@@ -104,7 +112,15 @@
   - form{"name": "journey_add_route_form"}
   - form{"name": null}
   - action_add_journey_route
-  - utter_add_route_or_wait_for_next_day
+  - utter_add_route_or_wait_for_next_day_or_finish_journey_planning
+* add_destination_journey_planning
+  - journey_add_route_form
+  - form{"name": "journey_add_route_form"}
+  - form{"name": null}
+  - action_add_journey_route
+  - utter_add_route_or_wait_for_next_day_or_finish_journey_planning
+* finish_journey_planning
+  - action_finish_journey_planning
 
 ## explain arrival date journey planning
 * start_journey_planning

@@ -116,3 +116,11 @@
 - ich mache morgen weiter
 - ich mache am nächsten tag weiter
 - ich mache am folgenden tag weiter
+
+## intent:finish_journey_planning
+- ich bin fertig
+- ich bin fertig mit dem planen
+- ich habe die planung abgeschlossen
+- ich habe die planung beendet
+- ich möchte nirgends mehr hin
+- ich habe fertig geplant

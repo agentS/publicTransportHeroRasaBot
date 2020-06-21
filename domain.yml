@@ -9,6 +9,7 @@ intents:
   - select_arrival_station
   - add_destination_journey_planning
   - wait_for_next_day
+  - finish_journey_planning
   - out_of_scope
 
 entities:
@@ -112,6 +113,15 @@ responses:
         payload: /add_destination_journey_planning
       - title: "Am nächsten Tag loslegen"
         payload: /wait_for_next_day
+  utter_add_route_or_wait_for_next_day_or_finish_journey_planning:
+  - text: "Möchtest du eine weiteres Ziel für den heutigen Tag hinzufügen, eine Nacht Pause einlegen oder die Reiseplanung beenden?"
+    buttons:
+      - title: "Einen Stopp hinzufügen"
+        payload: /add_destination_journey_planning
+      - title: "Am nächsten Tag loslegen"
+        payload: /wait_for_next_day
+      - title: "Reiseplanung beenden"
+        payload: /finish_journey_planning
   utter_print_added_journey_route_details:
   - text: "Departure: {journey_route_departure_station}, arrival: {journey_route_arrival_station}, departure date: {journey_route_departure_date_time}"
   utter_ask_journey_route_arrival_station:
@@ -143,6 +153,7 @@ actions:
   - action_lookup_single_connection
   - action_initialize_journey_planning
   - action_add_journey_route
+  - action_finish_journey_planning
 
 session_config:
   session_expiration_time: 60

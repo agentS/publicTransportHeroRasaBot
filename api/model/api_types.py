@@ -70,7 +70,11 @@ class PartialRoute:
 
 
 class Route:
-    def __init__(self, departure_station: Text, arrival_station: Text):
+    def __init__(
+        self,
+        departure_station: Text,
+        arrival_station: Text,
+    ):
         self.departure_station = departure_station
         self.arrival_station = arrival_station
         self.partial_routes = []
@@ -81,9 +85,60 @@ class Route:
             partial_routes_string = partial_routes_string + str(partial_route) + '\n'
         return f'In order to get from {self.departure_station} to {self.arrival_station} take the following routes:\n{partial_routes_string}'
 
-
     def to_serializable(self):
         serializable = vars(self)
         partial_routes = [partial_route.to_serializable() for partial_route in self.partial_routes]
         serializable['partial_routes'] = partial_routes
         return serializable
+
+
+class JourneyStop():
+    def __init__(
+        self,
+        departure_station: Text,
+        arrival_station: Text,
+        desired_date_time: datetime,
+        routes: List[Route]
+    ):
+        self.departure_station = departure_station
+        self.arrival_station = arrival_station
+        self.desired_date_time = desired_date_time
+        self.routes = routes
+
+    def to_serializable(self):
+        serializable = vars(self)
+        serializable['desired_date_time'] = self.desired_date_time.strftime(DATE_TIME_STRING_FORMAT)
+        routes = [route.to_serializable() for route in self.routes]
+        serializable['routes'] = routes
+        return serializable
+
+
+def create_journey_route_from_json(route_json: Dict) -> Route:
+    route = Route(
+        route_json['departure_station'],
+        route_json['arrival_station']
+    )
+    for partial_route_json in route_json['partial_routes']:
+        partial_route = PartialRoute(
+            partial_route_json['departure_station'],
+            partial_route_json['arrival_station'],
+            datetime.strptime(partial_route_json['departure_time'], DATE_TIME_STRING_FORMAT),
+            datetime.strptime(partial_route_json['arrival_time'], DATE_TIME_STRING_FORMAT),
+            MeansOfTransport(
+                partial_route_json['means_of_transport']['short_name'],
+                partial_route_json['means_of_transport']['product_name'],
+                partial_route_json['means_of_transport']['destination'],
+                MeansOfTransportType(partial_route_json['means_of_transport']['means_of_transport_type'])
+            )
+        )
+        route.partial_routes.append(partial_route)
+    return route
+
+
+def create_journey_stop_from_json(route_stop_json: List[Dict]) -> List[Route]:
+    return JourneyStop(
+        route_stop_json['departure_station'],
+        route_stop_json['arrival_station'],
+        datetime.strptime(route_stop_json['desired_date_time'], DATE_TIME_STRING_FORMAT),
+        [create_journey_route_from_json(route_json) for route_json in route_stop_json['routes']]
+    )

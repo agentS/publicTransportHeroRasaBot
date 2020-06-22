@@ -14,6 +14,8 @@ import re
 
 DATE_TIME_FORMAT_STRING = '%Y-%m-%dT%H:%M:%S.%f%z'
 
+AIRPORT_STATION_NAME = 'Flughafen Wien'
+
 
 class SingleConnectionForm(FormAction):
 
@@ -478,7 +480,10 @@ class ActionFinishJourneyPlanning(Action):
             dispatcher.utter_message(ticket_message)
 
         dispatcher.utter_message(json_message = {
-            'text': _get_ticket_purchase_instructions(optimal_tickets),
+            'text': _get_ticket_purchase_instructions(
+                optimal_tickets,
+                tracker.get_slot('first_station')
+            ),
             'parse_mode': 'MarkdownV2'
         })
 
@@ -495,12 +500,11 @@ def _format_date(date_time: datetime) -> Text:
     return date_time.strftime('%d.%m')
 
 
-def _get_ticket_purchase_instructions(optimal_tickets: List[Ticket]) -> Text:
+def _get_ticket_purchase_instructions(optimal_tickets: List[Ticket], first_station: Text) -> Text:
     message = 'Du kannst die Tickets über die folgenden Vertriebswege kaufen:\n\n'
-    unique_tickets = set(optimal_tickets)
-    if len(unique_tickets) > 0:
+    if len(optimal_tickets) > 0:
         message += 'Alle Tickets erhältst du komfortabl über die [Wien-Mobil-Anwendung für Android](https://play.google.com/store/apps/details?id=at.wienerlinien.wienmobillab&hl=de_AT) oder die [Wien-Mobil-Anwendung für iOS](https://itunes.apple.com/at/app/wienmobil/id1107918142?mt=8)\n\n'
-    for ticket in unique_tickets:
+    for (index, ticket) in enumerate(optimal_tickets):
         message += f'Das Ticket *{ticket.name}* kannst du über die folgenden Vertriebskanäle kaufen:\n'
         if TicketDistributionChannel.ONLINE in ticket.distribution_channels:
             message += f'[Online über den Wiener-Linien-Ticketshop]({ticket.online_shop_url})\n'
@@ -510,6 +514,11 @@ def _get_ticket_purchase_instructions(optimal_tickets: List[Ticket]) -> Text:
             message += f'An einer der Wiener Trafiken\n'
         if TicketDistributionChannel.TICKET_COUNTER in ticket.distribution_channels:
             message += f'[An einem Ticketschalter der Wiener Linien](https://www.wienerlinien.at/eportal3/ep/channelView.do?channelId=-46621&programId=66610#66609)\n'
+
+        if index == 0 and first_station == AIRPORT_STATION_NAME:
+            message += '*Wichtig*: Da du am Flughafen ankommst buche für dieses Ticket bitte die Option *Flughafentransfer* dazu, damit du weiter sparen kannst.'
+
+        message += '\n'
     return _normalize_markdown_with_links(message)
 
 

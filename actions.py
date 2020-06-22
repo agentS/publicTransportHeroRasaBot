@@ -7,7 +7,7 @@ from rasa_sdk.forms import FormAction
 
 from api.WienerLinienAPI import validate_station_name, StationNameValidationResult, lookup_routes
 from api.model.api_types import JourneyStop, Route, MeansOfTransportType, create_journey_stop_from_json
-from ticket_calculator.ticket import find_best_tickets_for_journey
+from ticket_calculator.ticket import find_best_tickets_for_journey, TicketDistributionChannel, Ticket
 from datetime import datetime, timedelta
 import re
 
@@ -359,7 +359,7 @@ class ActionAddJourneyRoute(Action):
         arrival_station = tracker.get_slot('journey_route_arrival_station')
         routes = lookup_routes(departure_station, arrival_station, departure_date_time)
         if len(routes) > 0:
-            dispatcher.utter_message(f'Super, ich habe mindestens eine Verbindung von {routes[0].departure_station} nach {routes[0].arrival_station} gefunden und sie in die Reiseplanung miteinbezogen')
+            dispatcher.utter_message(f'Super, ich habe mindestens eine Verbindung von {routes[0].departure_station} nach {routes[0].arrival_station} gefunden und sie in die Reiseplanung miteinbezogen.')
             journey_routes = tracker.get_slot('journey_routes')
             journey_stop = JourneyStop(departure_station, arrival_station, departure_date_time, routes)
             journey_routes.append(journey_stop.to_serializable())
@@ -416,15 +416,16 @@ class ActionFinishJourneyPlanning(Action):
         journey_stops = tracker.get_slot('journey_routes')
         journey_stops = [create_journey_stop_from_json(stop) for stop in journey_stops]
 
-        dispatcher.utter_message('Vielen Dank, dass du mir vertraust. :) Ich habe die folgende Routenplanung für dich zusammengestellt:')
+        dispatcher.utter_message('Vielen Dank, dass du mir vertraust :) Ich habe die folgende Routenplanung für dich zusammengestellt:')
         for stop in journey_stops:
-            route_display_text = f'Für die Verbindung von {stop.departure_station} nach {stop.arrival_station} am {_format_date(stop.desired_date_time)} um {_format_time(stop.desired_date_time)} habe ich die folgenden Verbindungen gefunden:\n{_convert_routes_to_markdown(stop.routes)}'
+            route_display_text = _normalize_markdown(f'Für die Verbindung von {stop.departure_station} nach {stop.arrival_station} am {_format_date(stop.desired_date_time)} um {_format_time(stop.desired_date_time)} habe ich die folgenden Verbindungen gefunden:\n')
+            route_display_text += _convert_routes_to_markdown(stop.routes)
             dispatcher.utter_message(json_message={
                 'text': route_display_text,
                 'parse_mode': 'MarkdownV2'
             })
 
-        print(tracker.get_slot('journey_routes'))
+        #print(tracker.get_slot('journey_routes'))
         optimal_tickets = find_best_tickets_for_journey(journey_stops)
         if len(optimal_tickets) == 1:
             dispatcher.utter_message(f'Ich würde dir das folgende Ticket für deine Reise empfehlen: {optimal_tickets[0].name} zum Preis von €{optimal_tickets[0].price}')
@@ -433,6 +434,11 @@ class ActionFinishJourneyPlanning(Action):
             for ticket in optimal_tickets:
                 ticket_message += f'- {ticket.name} zum Preis von €{ticket.price}\n'
             dispatcher.utter_message(ticket_message)
+
+        dispatcher.utter_message(json_message = {
+            'text': _get_ticket_purchase_instructions(optimal_tickets),
+            'parse_mode': 'MarkdownV2'
+        })
 
         return [
             SlotSet('first_station', None),
@@ -445,3 +451,29 @@ class ActionFinishJourneyPlanning(Action):
 
 def _format_date(date_time: datetime) -> Text:
     return date_time.strftime('%d.%m')
+
+
+def _get_ticket_purchase_instructions(optimal_tickets: List[Ticket]) -> Text:
+    message = 'Du kannst die Tickets über die folgenden Vertriebswege kaufen:\n\n'
+    unique_tickets = set(optimal_tickets)
+    if len(unique_tickets) > 0:
+        message += 'Alle Tickets erhältst du komfortabl über die [Wien-Mobil-Anwendung für Android](https://play.google.com/store/apps/details?id=at.wienerlinien.wienmobillab&hl=de_AT) oder die [Wien-Mobil-Anwendung für iOS](https://itunes.apple.com/at/app/wienmobil/id1107918142?mt=8)\n\n'
+    for ticket in unique_tickets:
+        message += f'Das Ticket *{ticket.name}* kannst du über die folgenden Vertriebskanäle kaufen:\n'
+        if TicketDistributionChannel.ONLINE in ticket.distribution_channels:
+            message += f'[Online über den Wiener-Linien-Ticketshop]({ticket.online_shop_url})\n'
+        if TicketDistributionChannel.VENDING_MACHINE in ticket.distribution_channels:
+            message += f'Am Fahrkartenautomaten an der Haltestelle\n'
+        if TicketDistributionChannel.CORNER_SHOP in ticket.distribution_channels:
+            message += f'An einer der Wiener Trafiken\n'
+        if TicketDistributionChannel.TICKET_COUNTER in ticket.distribution_channels:
+            message += f'[An einem Ticketschalter der Wiener Linien](https://www.wienerlinien.at/eportal3/ep/channelView.do?channelId=-46621&programId=66610#66609)\n'
+    return _normalize_markdown_with_links(message)
+
+
+def _normalize_markdown_with_links(markdown_representation: Text) -> Text:
+    return re.sub(
+        r'(/|~|`|>|#|\+|-|=|\||\{|\}|\.|!)',
+        _replace_special_character,
+        markdown_representation
+    )

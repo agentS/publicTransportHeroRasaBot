@@ -13,21 +13,40 @@ class TicketKind(Enum):
     WEEK_CONSTRAINED = auto()
 
 
+@unique
+class TicketDistributionChannel(Enum):
+    ONLINE = auto()
+    MOBILE_APPLICATION = auto()
+    VENDING_MACHINE = auto()
+    CORNER_SHOP = auto()
+    TICKET_COUNTER = auto()
+
+
 class Ticket():
-    def __init__(self, name: Text, kind: TicketKind, validity_duration: int, price: float):
+    def __init__(
+        self,
+        name: Text,
+        kind: TicketKind,
+        validity_duration: int,
+        price: float,
+        distribution_channels: List[TicketDistributionChannel],
+        online_shop_url: Optional[Text]
+    ):
         self.name = name
         self.kind = kind
         self.validity_duration = validity_duration
         self.price = price
+        self.distribution_channels = distribution_channels
+        self.online_shop_url = online_shop_url
 
 
 TICKETS = {
-    'single_ride': Ticket('1 Fahrt WIEN', TicketKind.RIDE_CONSTRAINED, 1, 2.40),
-    'one_day': Ticket('1 Tag WIEN', TicketKind.DAY_CONSTRAINED, 1, 5.80),
-    'twentyfour_hours': Ticket('24 Stunden WIEN', TicketKind.HOUR_CONSTRAINED, 24, 8.00),
-    'fortyeight_hours': Ticket('48 Stunden WIEN', TicketKind.HOUR_CONSTRAINED, 48, 14.10),
-    'seventytwo_hours': Ticket('72 Stunden WIEN', TicketKind.HOUR_CONSTRAINED, 72, 17.10),
-    'one_week': Ticket('Wochenkarte', TicketKind.WEEK_CONSTRAINED, 7, 17.10),
+    'single_ride': Ticket('1 Fahrt WIEN', TicketKind.RIDE_CONSTRAINED, 1, 2.40, [TicketDistributionChannel.ONLINE, TicketDistributionChannel.MOBILE_APPLICATION, TicketDistributionChannel.VENDING_MACHINE, TicketDistributionChannel.CORNER_SHOP, TicketDistributionChannel.TICKET_COUNTER], 'https://shop.wienerlinien.at/product/35/show'),
+    'one_day': Ticket('1 Tag WIEN', TicketKind.DAY_CONSTRAINED, 1, 5.80, [TicketDistributionChannel.ONLINE, TicketDistributionChannel.MOBILE_APPLICATION, TicketDistributionChannel.TICKET_COUNTER], 'https://shop.wienerlinien.at/product/694/show'),
+    'twentyfour_hours': Ticket('24 Stunden WIEN', TicketKind.HOUR_CONSTRAINED, 24, 8.00, [TicketDistributionChannel.ONLINE, TicketDistributionChannel.MOBILE_APPLICATION, TicketDistributionChannel.VENDING_MACHINE, TicketDistributionChannel.CORNER_SHOP, TicketDistributionChannel.TICKET_COUNTER], 'https://shop.wienerlinien.at/index.php/product/3/show/0/0/0/0'),
+    'fortyeight_hours': Ticket('48 Stunden WIEN', TicketKind.HOUR_CONSTRAINED, 48, 14.10, [TicketDistributionChannel.ONLINE, TicketDistributionChannel.MOBILE_APPLICATION, TicketDistributionChannel.VENDING_MACHINE, TicketDistributionChannel.CORNER_SHOP, TicketDistributionChannel.TICKET_COUNTER], 'https://shop.wienerlinien.at/index.php/product/5/show/0/0/0/0/buy'),
+    'seventytwo_hours': Ticket('72 Stunden WIEN', TicketKind.HOUR_CONSTRAINED, 72, 17.10, [TicketDistributionChannel.ONLINE, TicketDistributionChannel.MOBILE_APPLICATION, TicketDistributionChannel.VENDING_MACHINE, TicketDistributionChannel.CORNER_SHOP, TicketDistributionChannel.TICKET_COUNTER], 'https://shop.wienerlinien.at/index.php/product/6/show/0/0/0/0/buy'),
+    'one_week': Ticket('Wochenkarte', TicketKind.WEEK_CONSTRAINED, 7, 17.10, [TicketDistributionChannel.ONLINE, TicketDistributionChannel.MOBILE_APPLICATION, TicketDistributionChannel.VENDING_MACHINE, TicketDistributionChannel.CORNER_SHOP, TicketDistributionChannel.TICKET_COUNTER], 'https://shop.wienerlinien.at/index.php/product/7/show/0/0/0/0'),
 }
 HOUR_CONSTRAINED_TICKETS = [
     TICKETS['twentyfour_hours'],

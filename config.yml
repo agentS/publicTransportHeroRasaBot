@@ -17,7 +17,7 @@ pipeline:
     epochs: 100
   - name: DucklingHTTPExtractor
     url: "http://localhost:8000"
-    dimensions: ["time", "number"]
+    dimensions: ["time"]
     locale: "de_DE"
     timezone: "Europe/Vienna"
     timeout : 3

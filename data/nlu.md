@@ -76,6 +76,7 @@
 - bring mich vom [rathaus]{"entity": "station", "role": "departure"} in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
 - bring mich von der [stranitzkygasse]{"entity": "station", "role": "departure"} in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
 - ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
+- ich fahre vom [stephansplatz]{"entity": "station", "role": "departure"} nach [michelbeuern-akh]{"entity": "station", "role": "arrival"}
 
 ## intent:select_arrival_station
 - ich komme am [hauptbahnhof]{"entity": "station", "role": "arrival"} an
@@ -104,6 +105,8 @@
 - bring mich in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
 - bring mich in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
 - ich fahre in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
+- ich fahre nach [michelbeuern-akh]{"entity": "station", "role": "arrival"}
+- bring mich nach [michelbeuern-akh]{"entity": "station", "role": "arrival"}
 
 ## intent:add_destination_journey_planning
 - ich möchte einen stopp hinzufügen
@@ -114,6 +117,8 @@
 - halt hinzufügen
 - stopp einfügen
 - halt einfügen
+- nächster halt
+- nächster stopp
 - ich möchte noch wo hin
 - ich möchte noch einen stopp einfügen
 - ich möchte einen halt einfügen
@@ -128,10 +133,12 @@
 - ich mache morgen weiter
 - ich mache am nächsten tag weiter
 - ich mache am folgenden tag weiter
+- ich möchte eine pause einlegen
 
 ## intent:finish_journey_planning
 - ich bin fertig
 - ich bin fertig mit dem planen
+- ich bin mit dem planen fertig
 - ich habe die planung abgeschlossen
 - ich habe die planung beendet
 - ich möchte nirgends mehr hin

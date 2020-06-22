@@ -134,6 +134,20 @@ class SingleConnectionForm(FormAction):
             dispatcher.utter_message('Leider konnte ich für die von dir gewählte Zielstation keinen Treffer finden.')
             return None
 
+    def validate_departure_date_time(
+        self,
+        value: Union[Text, Dict[Text, Text]],
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ):
+        if type(value) == str:
+            return {'departure_date_time': value}
+        elif type(value) == dict:
+            return {'departure_date_time': value['from']}
+        else:
+            return {'departure_date_time': None}
+
     def submit(
         self,
         dispatcher: CollectingDispatcher,
@@ -255,6 +269,20 @@ class JourneyDetailsForm(FormAction):
             dispatcher.utter_message('Leider konnte ich für die von dir gewählte Abfahrtsstation keinen Treffer finden.')
             return {'first_station': None}
 
+    def validate_arrival_date(
+        self,
+        value: Union[Text, Dict[Text, Text]],
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ):
+        if type(value) == str:
+            return {'arrival_date': value}
+        elif type(value) == dict:
+            return {'arrival_date': value['from']}
+        else:
+            return {'arrival_date': None}
+
     def submit(
         self,
         dispatcher: CollectingDispatcher,
@@ -321,6 +349,20 @@ class JourneyAddRouteForm(FormAction):
         elif validation_result == StationNameValidationResult.NO_MATCH:
             dispatcher.utter_message('Leider konnte ich für die von dir gewählte Abfahrtsstation keinen Treffer finden.')
             return {'journey_route_arrival_station': None}
+
+    def validate_journey_route_departure_date_time(
+        self,
+        value: Union[Text, Dict[Text, Text]],
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ):
+        if type(value) == str:
+            return {'journey_route_departure_date_time': value}
+        elif type(value) == dict:
+            return {'journey_route_departure_date_time': value['from']}
+        else:
+            return {'journey_route_departure_date_time': None}
 
     def submit(
         self,

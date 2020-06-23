@@ -91,7 +91,7 @@
 - ich fahre in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
 - ich möchte nach [alterlaa U]{"entity": "station", "role": "arrival"} ab
 - ich fahre nach [simmering S+U]{"entity": "station", "role": "arrival"}
-- mein ziel ist [ottakring]{"entity": "station", "role": "arrival"}
+- mein ziel ist [ottakring S+U]{"entity": "station", "role": "arrival"}
 - ich will nach [floridsdorf U]{"entity": "station", "role": "arrival"}
 - ich will nach [schönbrunn]{"entity": "station", "role": "arrival"}
 - ich fahre nach [siebenhirten U]{"entity": "station", "role": "arrival"}

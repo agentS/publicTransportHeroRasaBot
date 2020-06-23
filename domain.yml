@@ -123,9 +123,10 @@ responses:
       - title: "Reiseplanung beenden"
         payload: /finish_journey_planning
   utter_ask_journey_route_arrival_station:
-  - text: "Sag mir bitte wo du von {previous_arrival_station} aus hinfahren möchtest."
-  - text: "Wo möchtest du von {previous_arrival_station} hinfahren möchtest."
-  - text: "Wohin soll es von {previous_arrival_station} aus gehen."
+  - text: "Sag mir bitte, wo du hinfahren möchtest?"
+  - text: "Wo möchtest du hinfahren?"
+  - text: "Wohin soll es gehen?"
+  - text: "Sag mir bitte, wohin du fahren möchtest?"
   utter_ask_journey_route_departure_station:
   - text: "Du kannst mir entweder sagen wohin du fahren möchtest und ich verwende deine zuletzt eingegebene Station als Abfahrtsstation oder du kannst mir sagen von wo du wohin fahren möchtest."
   utter_explain_journey_route_arrival_station:

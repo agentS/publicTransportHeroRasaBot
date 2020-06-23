@@ -398,13 +398,11 @@ class JourneyAddRouteForm(FormAction):
             )
             departure_station_name = tracker.get_slot('journey_route_departure_station')
             if departure_station_name is None:
-                print('Using previous arrival station as departure station.')
                 return {
                     'journey_route_arrival_station': arrival_station_name,
                     'journey_route_departure_station': tracker.get_slot('previous_arrival_station')
                 }
             else:
-                print(f'Using entered departure station {departure_station_name} as departure station.')
                 return {'journey_route_arrival_station': arrival_station_name}
 
     def validate_journey_route_departure_date_time(

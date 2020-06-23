@@ -45,6 +45,8 @@
   - utter_explain_departure_station_to_arrival_station_single_connection_lookup
   - lookup_single_connection_form
   - form{"name": null}
+  - action_lookup_single_connection
+  - utter_main_menu
 
 ## explain arrival station single connection lookup
 * lookup_single_connection
@@ -270,7 +272,7 @@
   - action_finish_journey_planning
   - utter_main_menu
 
-## greet and start two day journey planning
+## greet and start three day journey planning
 * greet
   - utter_greet
   - utter_main_menu

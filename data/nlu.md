@@ -55,27 +55,27 @@
 - wie komme ich nach [taubstummengasse]{"entity": "station", "role": "departure"}
 
 ## intent:specify_departure_and_arrival_station
-- ich möchte von [stranitzkygasse]{"entity": "station", "role": "departure"} nach [taubstummengasse]{"entity": "station", "role": "departure"}
-- ich möchte von [taubstummengasse]{"entity": "station", "role": "departure"} nach [stranitzkygasse]{"entity": "station", "role": "departure"}
+- ich möchte von [stranitzkygasse]{"entity": "station", "role": "departure"} nach [taubstummengasse u]{"entity": "station", "role": "departure"}
+- ich möchte von [taubstummengasse u]{"entity": "station", "role": "departure"} nach [stranitzkygasse]{"entity": "station", "role": "departure"}
 - ich möchte vom [stephansplatz]{"entity": "station", "role": "departure"} nach [johnstraße]{"entity": "station", "role": "departure"}
-- ich fahre von [stranitzkygasse]{"entity": "station", "role": "departure"} nach [alterlaa U]{"entity": "station", "role": "arrival"}
-- [floridsdorf U]{"entity": "station", "role": "departure"} nach [simmering S+U]{"entity": "station", "role": "arrival"}
+- ich fahre von [stranitzkygasse]{"entity": "station", "role": "departure"} nach [alterlaa u]{"entity": "station", "role": "arrival"}
+- [floridsdorf s+u]{"entity": "station", "role": "departure"} nach [simmering s+u]{"entity": "station", "role": "arrival"}
 - [rathaus]{"entity": "station", "role": "departure"} nach [schwedenplatz]{"entity": "station", "role": "arrival"}
-- [heiligenstadt]{"entity": "station", "role": "departure"} nach [schönbrunn]{"entity": "station", "role": "arrival"}
-- [stranitzkygasse]{"entity": "station", "role": "departure"} nach [taubstummengasse]{"entity": "station", "role": "arrival"}
-- ich fahre aus [siebenhirten U]{"entity": "station", "role": "departure"} nach [kettenbrückengasse]{"entity": "station", "role": "arrival"}
-- ich fahre vom [rathaus]{"entity": "station", "role": "departure"} zum [praterstern]{"entity": "station", "role": "arrival"}
-- ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} nach [meidling]{"entity": "station", "role": "arrival"}
+- [heiligenstadt s+u]{"entity": "station", "role": "departure"} nach [schönbrunn]{"entity": "station", "role": "arrival"}
+- [stranitzkygasse]{"entity": "station", "role": "departure"} nach [taubstummengasse u]{"entity": "station", "role": "arrival"}
+- ich fahre aus [siebenhirten u]{"entity": "station", "role": "departure"} nach [kettenbrückengasse u]{"entity": "station", "role": "arrival"}
+- ich fahre vom [rathaus]{"entity": "station", "role": "departure"} zum [praterstern s+u]{"entity": "station", "role": "arrival"}
+- ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} nach [meidling s+u]{"entity": "station", "role": "arrival"}
 - vom [flughafen]{"entity": "station", "role": "departure"} nach [landstraße]{"entity": "station", "role": "arrival"}
-- von [favoriten]{"entity": "station", "role": "departure"} nach [oberdöbling]{"entity": "station", "role": "arrival"}
+- von [kettenbrückengasse u]{"entity": "station", "role": "departure"} nach [oberdöbling]{"entity": "station", "role": "arrival"}
 - ich fahre von der [simmeringer haide]{"entity": "station", "role": "departure"} zum [handelskai]{"entity": "station", "role": "arrival"}
 - ich fahre von der [wopenkastraße]{"entity": "station", "role": "departure"} in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
-- ich fahre vom [keplerplatz]{"entity": "station", "role": "departure"} in die [seestadt U]{"entity": "station", "role": "arrival"}
-- ich will von [alte donau U]{"entity": "station", "role": "departure"} zur [donauinsel]{"entity": "station", "role": "arrival"}
+- ich fahre vom [keplerplatz u]{"entity": "station", "role": "departure"} in die [seestadt u]{"entity": "station", "role": "arrival"}
+- ich will von [alte donau U]{"entity": "station", "role": "departure"} zur [donauinsel u]{"entity": "station", "role": "arrival"}
 - ich will von [kagran U]{"entity": "station", "role": "departure"} in die [bruno-kreisky-gasse]{"entity": "station", "role": "arrival"}
 - bring mich vom [rathaus]{"entity": "station", "role": "departure"} in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
-- bring mich von der [stranitzkygasse]{"entity": "station", "role": "departure"} in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
-- ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
+- bring mich von der [stranitzkygasse]{"entity": "station", "role": "departure"} in die [schlachthausgasse u]{"entity": "station", "role": "arrival"}
+- ich fahre vom [hauptbahnhof]{"entity": "station", "role": "departure"} in die [schlachthausgasse u]{"entity": "station", "role": "arrival"}
 - ich fahre vom [stephansplatz]{"entity": "station", "role": "departure"} nach [michelbeuern-akh]{"entity": "station", "role": "arrival"}
 
 ## intent:select_arrival_station
@@ -85,16 +85,15 @@
 - [flughafen]{"entity": "station", "role": "arrival"}
 - [flughafen wien]{"entity": "station", "role": "arrival"}
 - ich steige am [hauptbahnhof]{"entity": "station", "role": "arrival"} aus
-- ich steige in [meidling]{"entity": "station", "role": "arrival"} aus
-- mein zug kommt in [hütteldorf]{"entity": "station", "role": "arrival"} an
-- ich parke am [westbahnhof]{"entity": "station", "role": "arrival"}
+- ich steige in [meidling s+u]{"entity": "station", "role": "arrival"} aus
+- mein zug kommt in [hütteldorf s+u]{"entity": "station", "role": "arrival"} an
+- ich parke am [westbahnhof s+u]{"entity": "station", "role": "arrival"}
 - ich fahre in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
 - ich möchte nach [alterlaa U]{"entity": "station", "role": "arrival"} ab
-- ich fahre nach [simmering S+U]{"entity": "station", "role": "arrival"}
-- mein ziel ist [ottakring S+U]{"entity": "station", "role": "arrival"}
-- ich will nach [floridsdorf U]{"entity": "station", "role": "arrival"}
-- ich will nach [schönbrunn]{"entity": "station", "role": "arrival"}
-- ich fahre nach [siebenhirten U]{"entity": "station", "role": "arrival"}
+- ich fahre nach [simmering s+u]{"entity": "station", "role": "arrival"}
+- mein ziel ist [ottakring s+u]{"entity": "station", "role": "arrival"}
+- ich will nach [floridsdorf s+u]{"entity": "station", "role": "arrival"}
+- ich fahre nach [siebenhirten u]{"entity": "station", "role": "arrival"}
 - ich fahre zum [rathaus]{"entity": "station", "role": "arrival"}
 - ich fahre zum [stephansplatz]{"entity": "station", "role": "arrival"}
 - ich fahre zum [schloss schönbrunn]{"entity": "station", "role": "arrival"}
@@ -104,7 +103,7 @@
 - bring mich zum [schloss schönbrunn]{"entity": "station", "role": "arrival"}
 - bring mich in die [stranitzkygasse]{"entity": "station", "role": "arrival"}
 - bring mich in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
-- ich fahre in die [schlachthausgasse]{"entity": "station", "role": "arrival"}
+- ich fahre in die [schlachthausgasse u]{"entity": "station", "role": "arrival"}
 - ich fahre nach [michelbeuern-akh]{"entity": "station", "role": "arrival"}
 - bring mich nach [michelbeuern-akh]{"entity": "station", "role": "arrival"}
 

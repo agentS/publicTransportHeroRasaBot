@@ -22,6 +22,25 @@
   - action_lookup_single_connection
   - utter_main_menu
 
+## greet and lookup two single connections
+* greet
+  - utter_greet
+  - utter_main_menu
+* lookup_single_connection
+  - utter_lookup_single_connection
+  - lookup_single_connection_form
+  - form{"name": "lookup_single_connection_form"}
+  - form{"name": null}
+  - action_lookup_single_connection
+  - utter_main_menu
+* lookup_single_connection
+  - utter_lookup_single_connection
+  - lookup_single_connection_form
+  - form{"name": "lookup_single_connection_form"}
+  - form{"name": null}
+  - action_lookup_single_connection
+  - utter_main_menu
+
 ## greet, ask for help, and lookup a single connection
 * greet
   - utter_greet

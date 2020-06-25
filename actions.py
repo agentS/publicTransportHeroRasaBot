@@ -208,7 +208,7 @@ def _convert_routes_to_markdown(routes: List[Route]) -> Text:
             else:
                 markdown_representation += f'{str(partial_route_index + 1)}. Fußweg nach {partial_route.arrival_station}, '
                 markdown_representation += f'Losgehzeit __{_format_time(partial_route.departure_time)}__, '
-                markdown_representation += f'Ankunftszeit __{_format_time(partial_route.arrival_time)}__'
+                markdown_representation += f'Ankunftszeit __{_format_time(partial_route.arrival_time)}__\n'
         markdown_representation += '\n'
 
     return _normalize_markdown(markdown_representation)
